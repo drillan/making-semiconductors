@@ -54,7 +54,8 @@
    **オープンISA: RISC-V**〔Arm代替の潮流、Tenstorrent 等〕）
 7. 主要ファブレス（NVIDIA / Qualcomm / AMD / Apple / Broadcom）
 
-### 第2部: 前工程（15枚）— 製造の中心
+### 第2部: 前工程（16枚）— 製造の中心
+<!-- 可読性のため実装で「③リソグラフィ/露光」を露光装置/周辺装置・材料の2枚に分割 -->
 8. 前工程全体フロー（ウェハーに回路を積層形成）
 9. ①ウェハー製造 ＋ 素材（信越化学 / SUMCO）
 10. ②成膜 CVD / PVD / ALD ＋ 装置（AMAT / TEL / Lam / **ASM International**〔ALD〕）
