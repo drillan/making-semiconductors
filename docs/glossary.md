@@ -7,6 +7,7 @@
 ## 事業モデル・分業構造
 
 ```{glossary}
+IDM
 IDM（Integrated Device Manufacturer）
   設計から前工程・後工程まで、製造を自社で一貫して行う垂直統合型の企業。Intel、ローム、
   メモリ事業を含むSamsungなどが代表例。
@@ -19,13 +20,16 @@ IDM（Integrated Device Manufacturer）
   他社が設計した半導体の製造を専業で受託する企業。TSMC、Samsung（ファウンドリ事業）、
   Intel（近年参入）、Rapidusなど。
 
+OSAT
 OSAT（Outsourced Semiconductor Assembly and Test）
   後工程（組立・封止・テスト）を専業で受託する企業。ASE、Amkor、JCETなど。
 
+DTCO
 DTCO（Design-Technology Co-Optimization）
   ファブレスの設計データとファウンドリの製造プロセス（デザインルール・PDK）を、量産開始前
   からすり合わせる協調設計の考え方。最先端ノードほど重要性が増す。
 
+PDK
 PDK（Process Design Kit）
   ファウンドリが提供する、特定の製造プロセス向けの設計ルール・部品ライブラリの集合。
   ファブレスはPDKに基づいて回路を設計する。
@@ -34,14 +38,17 @@ PDK（Process Design Kit）
 ## 設計エコシステム
 
 ```{glossary}
+EDA
 EDA（Electronic Design Automation）
   論理設計・回路設計・レイアウト・検証など、チップ設計工程を自動化するソフトウェア群。
   Synopsys・Cadence・Siemens EDAの3社が事実上の標準を提供する。
 
+IP
 IP（設計資産、Intellectual Property）
   ゼロから設計せずライセンスで組み込める、CPUコアやインターフェース回路などの再利用可能な
   回路資産。Armのコア設計が代表例。
 
+ISA
 ISA（Instruction Set Architecture、命令セットアーキテクチャ）
   プロセッサが解釈・実行する命令の仕様。Arm、x86、RISC-Vなどが代表的なISA。
 
@@ -49,6 +56,7 @@ RISC-V
   ライセンス費用が発生しないオープンソースのISA。命令セット仕様が公開されており、誰でも
   自由にプロセッサを設計・実装できる。Tenstorrentなどが採用を進める。
 
+UCIe
 UCIe（Universal Chiplet Interconnect Express）
   1つのパッケージ内で複数のダイ（チップレット）を接続するための業界標準規格。AMD・Arm・
   Intel・TSMC・Samsungなどが創設メンバー。異なるベンダーのダイを組み合わせる相互接続性を
@@ -69,6 +77,7 @@ UCIe（Universal Chiplet Interconnect Express）
   半導体プロセスの微細度を表す世代の呼び名（例：3nm、2nm）。数値が小さいほど微細で高性能・
   低消費電力とされる。
 
+WFE
 WFE（Wafer Fab Equipment）
   半導体製造装置全体への投資・支出を指す業界用語。装置市場の規模を語る際の基準になる。
 ```
@@ -76,18 +85,22 @@ WFE（Wafer Fab Equipment）
 ## 成膜・熱処理
 
 ```{glossary}
+CVD
 CVD（Chemical Vapor Deposition、化学気相成長）
   原料ガスの化学反応を利用して、ウェハー上に薄膜を堆積させる成膜手法。
 
+PVD
 PVD（Physical Vapor Deposition、物理気相成長）
   ターゲット材を物理的に飛散させてウェハー上に堆積させる成膜手法。スパッタリングが代表例。
 
+ALD
 ALD（Atomic Layer Deposition、原子層堆積）
   原子層単位で薄膜を精密に制御しながら堆積させる成膜手法。微細化が進むほど重要性が増す。
 
 スパッタリング
   PVDの一種で、ターゲット材にイオンを衝突させて原子を叩き出し、ウェハー上に堆積させる手法。
 
+RTP
 RTP（Rapid Thermal Processing、急速熱処理）
   短時間でウェハーを高温に加熱・冷却し、膜質や不純物分布を制御する熱処理手法。
 ```
@@ -95,9 +108,11 @@ RTP（Rapid Thermal Processing、急速熱処理）
 ## リソグラフィ・マスク
 
 ```{glossary}
+EUV
 EUV（Extreme Ultraviolet、極端紫外線）
   波長13.5nmの極端紫外光を用いる最先端の露光技術。ASMLが世界で唯一の供給元。
 
+High-NA
 High-NA EUV
   ASMLが開発する次世代EUV露光技術。開口数（NA）を高めることで、従来のEUVよりさらに微細な
   パターンの露光を可能にする。
@@ -127,6 +142,7 @@ EUVペリクル
 イオン注入
   加速したイオンビームをシリコン結晶に打ち込み、電気的性質（n型／p型）を作り込む工程。
 
+CMP
 CMP（Chemical Mechanical Polishing、化学機械研磨）
   化学反応とスラリー研磨を組み合わせて、ウェハー表面の凹凸を平坦にする工程。
 
@@ -136,10 +152,12 @@ CMP（Chemical Mechanical Polishing、化学機械研磨）
 枚葉式洗浄
   ウェハーを1枚ずつ処理する洗浄方式。微細化に伴う高精度洗浄の要求から主流になりつつある。
 
+メトロロジー
 メトロロジー（計測）
   各工程後にパターン寸法・欠陥・膜厚などを測定する技術・工程群。KLAが装置分野の首位級。
   米NISTはCHIPS法のもとで「計測ギャップ」を国家課題として位置づけている。
 
+CD-SEM
 CD-SEM（Critical Dimension - Scanning Electron Microscope）
   走査電子顕微鏡を用いて、回路パターンの寸法（クリティカルディメンション）を計測する装置。
 ```
@@ -151,10 +169,12 @@ FinFET
   シリコンをヒレ（Fin）状に立体化し、ゲートが側面からチャネルを制御するトランジスタ構造。
   平面構造の限界を超える微細化技術として広く採用されてきた。
 
+GAA
 GAA（Gate-All-Around）
   チャネルの全周をゲートが取り囲む、FinFETの次世代にあたるトランジスタ構造。ナノシート
   構造とも呼ばれ、さらなる微細化・電流制御性の向上を可能にする。
 
+BSPDN
 BSPDN（Backside Power Delivery Network、バックサイド給電）
   電源配線をウェハー裏面に移すことで、表面側の信号配線の混雑を緩和する技術。
 ```
@@ -172,10 +192,12 @@ BSPDN（Backside Power Delivery Network、バックサイド給電）
 ワイヤボンディング
   金線・銅線などの極細ワイヤでチップと基板・リードフレームを電気的に接続する実装方式。
 
+FC-BGA
 FC-BGA（Flip Chip Ball Grid Array）
   チップを反転させ、はんだバンプで直接基板に接続するフリップチップ実装を用いた、ボール
   グリッドアレイ型のパッケージ基板。高性能チップの周辺で広く使われる。
 
+ABF
 ABF（Ajinomoto Build-up Film）
   味の素が開発した、FC-BGA基板の層間絶縁材料として使われる樹脂フィルム。多層配線を可能に
   する事実上の業界標準で、味の素がほぼ独占的に供給する。
@@ -192,6 +214,7 @@ EMC（Epoxy Molding Compound、封止材／モールド樹脂）
   1つの大きなチップを複数の小さなダイに分割し、1つのパッケージ内で組み合わせる設計・
   実装手法。ダイ間の接続方式の標準化（UCIe）が普及の鍵になる。
 
+TSV
 TSV（Through-Silicon Via、シリコン貫通電極）
   シリコンダイを垂直に貫通する電極で、積層したダイ同士を電気的に接続する技術。HBMなどの
   3D実装で使われる。
@@ -200,13 +223,16 @@ TSV（Through-Silicon Via、シリコン貫通電極）
   はんだバンプを介さず、金属パッドと絶縁層を直接接合してダイ同士を接続する実装技術。
   TSVと組み合わせて使われることが多い、より微細な接続を可能にする先端技術。
 
+WoW
 Wafer-on-Wafer（WoW）
   ダイ単位ではなく、ウェハー同士を貼り合わせて積層する3D実装手法。
 
+HBM
 HBM（High Bandwidth Memory、広帯域メモリ）
   DRAMダイを複数枚積層し、TSVで接続して広い帯域幅を実現するメモリ製品。生成AI向け
   演算需要の急増を背景に需要が急拡大している。SK hynixが首位。
 
+CoWoS
 CoWoS（Chip-on-Wafer-on-Substrate）
   TSMCの2.5Dパッケージング技術。ロジックダイとHBMスタックをシリコンインターポーザ上に
   並べて実装する。
@@ -219,10 +245,12 @@ CoWoS（Chip-on-Wafer-on-Substrate）
 ## メモリ
 
 ```{glossary}
+DRAM
 DRAM（Dynamic Random Access Memory）
   主記憶として使われる、電源を切るとデータが消える揮発性メモリ。Samsung・SK hynix・
   Micronの大手3社が寡占する。
 
+NAND
 NAND（NANDフラッシュメモリ）
   大容量ストレージ向けの不揮発性メモリ。記憶セルを垂直に積み重ねる「層数競争」が技術的な
   焦点になっている。
@@ -231,6 +259,7 @@ NAND（NANDフラッシュメモリ）
 ## 業界構造・地政学
 
 ```{glossary}
+CHIPS法
 CHIPS法（CHIPS and Science Act）
   米国が半導体の国内製造・研究開発を振興するために制定した法律。NISTの計測ギャップ研究
   プログラムなど、国家的な半導体政策の枠組みを提供する。
@@ -239,6 +268,8 @@ CHIPS法（CHIPS and Science Act）
   電力変換・制御を担う半導体。自動車・産業機器向けが中心で、先端ロジックとは別系統の
   設計・供給網を持つ。耐圧・耐熱・省電力の特性が重視される。
 
+SiC
+GaN
 SiC（炭化ケイ素）／GaN（窒化ガリウム）
   シリコンに代わる次世代パワー半導体の基板材料（化合物半導体）。高耐圧・高効率の特性を
   持ち、EV・産業機器向けなどで採用が広がる。
