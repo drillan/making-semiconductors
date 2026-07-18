@@ -7,8 +7,8 @@
 :::{mermaid}
 flowchart LR
   A[裏面研削] --> B[ダイシング] --> C[ボンディング] --> D[封止] --> E[検査]
-  classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75;
-  class A,B,C,D,E be;
+  classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75
+  class A,B,C,D,E be
 :::
 
 [出典: 工程区分は一般的な後工程フロー。詳細は docs「後工程」ページ]{.source}
@@ -145,8 +145,8 @@ flowchart LR
 :::{mermaid}
 flowchart TD
   D4["DRAMダイ #4"] -->|TSV| D3["DRAMダイ #3"] -->|TSV| D2["DRAMダイ #2"] -->|TSV| D1["DRAMダイ #1"] -->|TSV| BASE[ベースダイ/ロジック]
-  classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75;
-  class D4,D3,D2,D1,BASE be;
+  classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75
+  class D4,D3,D2,D1,BASE be
 :::
 
 [出典: 積層技術・HBM構造は概況/2024年頃。詳細は docs「後工程」ページ]{.source}

@@ -7,8 +7,8 @@
 :::{mermaid}
 flowchart LR
   A[成膜] --> B[リソグラフィ] --> C[エッチング] --> D[イオン注入] --> E[CMP平坦化] --> F[洗浄] --> G[検査・計測] --> A
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  class A,B,C,D,E,F,G fe;
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  class A,B,C,D,E,F,G fe
 :::
 
 [出典: 工程区分は一般的な前工程フロー。詳細は docs「前工程」ページ]{.source}
@@ -107,8 +107,8 @@ flowchart LR
 :::{mermaid}
 flowchart LR
   R[レジスト塗布] --> E[露光] --> D[現像]
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  class R,E,D fe;
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  class R,E,D fe
 :::
 
 :::{list-table}
@@ -171,8 +171,8 @@ flowchart LR
 :::{mermaid}
 flowchart LR
   M[マスク形成済みウェハー] --> P[プラズマ生成] --> E[選択的エッチング] --> R[レジスト除去]
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  class M,P,E,R fe;
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  class M,P,E,R fe
 :::
 
 :::{list-table}
@@ -202,8 +202,8 @@ flowchart LR
 :::{mermaid}
 flowchart LR
   I[イオン源] --> A[加速・質量分離] --> W[ウェハーへ注入]
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  class I,A,W fe;
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  class I,A,W fe
 :::
 
 :::{list-table}
@@ -233,8 +233,8 @@ flowchart LR
 :::{mermaid}
 flowchart LR
   S[凹凸のある表面] --> C[化学反応+研磨] --> F[平坦な表面]
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  class S,C,F fe;
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  class S,C,F fe
 :::
 
 :::{list-table}
@@ -267,8 +267,8 @@ flowchart LR
 :::{mermaid}
 flowchart LR
   W[汚染ウェハー] --> C[薬液洗浄+リンス] --> D[乾燥]
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  class W,C,D fe;
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  class W,C,D fe
 :::
 
 :::{list-table}

@@ -26,16 +26,16 @@ flowchart LR
   F1 --> B1
   M1 --> B1
   B1 --> O1
-  classDef design fill:#268bd2,color:#fdf6e3,stroke:#586e75;
-  classDef material fill:#6c71c4,color:#fdf6e3,stroke:#586e75;
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75;
-  classDef ov fill:#586e75,color:#fdf6e3,stroke:#073642;
-  class D1 design;
-  class M1 material;
-  class F1 fe;
-  class B1 be;
-  class O1 ov;
+  classDef design fill:#268bd2,color:#fdf6e3,stroke:#586e75
+  classDef material fill:#6c71c4,color:#fdf6e3,stroke:#586e75
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75
+  classDef ov fill:#586e75,color:#fdf6e3,stroke:#073642
+  class D1 design
+  class M1 material
+  class F1 fe
+  class B1 be
+  class O1 ov
 :::
 
 [出典: 全体構成は本編の章立てに対応。詳細は docs「業界俯瞰」ページ]{.source}
@@ -47,8 +47,8 @@ flowchart LR
 :::{mermaid}
 flowchart LR
   A["1位 ASML"] --> B["2位 AMAT"] --> C["3位 Lam Research"] --> D["4位 東京エレクトロン"] --> E["5位 KLA"]
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  class A,B,C,D,E fe;
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  class A,B,C,D,E fe
 :::
 
 :::{list-table}

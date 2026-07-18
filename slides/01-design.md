@@ -13,12 +13,12 @@ flowchart LR
     F[ファブレス: 設計に特化] -->|製造委託| FD[ファウンドリ: 製造専業]
     FD --> O[OSAT: 組立・検査専業]
   end
-  classDef design fill:#268bd2,color:#fdf6e3,stroke:#586e75;
-  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
-  classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75;
-  class I1,F design;
-  class I2,FD fe;
-  class O be;
+  classDef design fill:#268bd2,color:#fdf6e3,stroke:#586e75
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75
+  class I1,F design
+  class I2,FD fe
+  class O be
 :::
 
 [出典: 産業構造区分は概況。詳細は docs「設計」ページ]{.source}
@@ -28,8 +28,8 @@ flowchart LR
 :::{mermaid}
 flowchart LR
   S[仕様] --> L[論理設計] --> C[回路設計] --> P[レイアウト] --> V[検証]
-  classDef design fill:#268bd2,color:#fdf6e3,stroke:#586e75;
-  class S,L,C,P,V design;
+  classDef design fill:#268bd2,color:#fdf6e3,stroke:#586e75
+  class S,L,C,P,V design
 :::
 
 [出典: 設計フローは一般的な工程区分。詳細は docs「設計」ページ]{.source}
