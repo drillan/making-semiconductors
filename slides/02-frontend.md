@@ -72,7 +72,7 @@ flowchart LR
 * - 企業
   - 装置
   - 位置づけ
-* - [TEL]{.jp} / KOKUSAI ELECTRIC / ASM International
+* - [TEL]{.jp} / [KOKUSAI ELECTRIC]{.jp} / ASM International
   - 縦型炉
   - 3社で世界シェア73%超（企業別の内訳は非公開）
 :::

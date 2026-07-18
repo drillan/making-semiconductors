@@ -29,7 +29,7 @@ flowchart LR
   - 両分野で世界的な大手
 * - [東京精密]{.jp}
   - バックグラインダー / ダイシングソー
-  - ディスコと並ぶ主要プレイヤー
+  - [ディスコ]{.jp}と並ぶ主要プレイヤー
 :::
 
 [出典: バックグラインド・ダイシング装置は概況/2024年頃。詳細は docs「後工程」ページ]{.source}
@@ -90,7 +90,7 @@ flowchart LR
 
 ### パッケージ基板
 
-高性能チップの周辺には、微細配線を持つパッケージ基板が必要になる。FC-BGA基板の絶縁材料ABF（Ajinomoto Build-up Film）は味の素がほぼ独占的に供給しており、日本企業の強みが際立つ分野。次世代ではガラスをコア材に使う「ガラスコア基板」をIntelが推進している。
+高性能チップの周辺には、微細配線を持つパッケージ基板が必要になる。FC-BGA基板の絶縁材料ABF（Ajinomoto Build-up Film）は[味の素]{.jp}がほぼ独占的に供給しており、日本企業の強みが際立つ分野。次世代ではガラスをコア材に使う「ガラスコア基板」をIntelが推進している。
 
 :::{list-table}
 :header-rows: 1
@@ -163,7 +163,7 @@ flowchart TD
   - 代表企業
   - 位置づけ
 * - 半導体テスタ
-  - Advantest / Teradyne
+  - [Advantest]{.jp} / Teradyne
   - テスタ市場の二強
 * - OSAT
   - ASE（首位）/ Amkor / JCET
@@ -190,7 +190,7 @@ flowchart TD
   - [住友ベークライト]{.jp} / [ナミックス]{.jp} / [田中電子工業]{.jp} / [日鉄マイクロメタル]{.jp} / [三井ハイテック]{.jp} / [味の素]{.jp}
   - 封止材・リードフレーム・ABFで日本勢が強み
 * - パッケージング・テスト
-  - TSMC / Intel / Samsung / Advantest / ASE
+  - TSMC / Intel / Samsung / [Advantest]{.jp} / ASE
   - 先端パッケージングとテスト・OSATの主要プレイヤー
 :::
 
