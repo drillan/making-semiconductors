@@ -32,6 +32,12 @@
 .reveal h2 { font-size: 1.5em; margin-bottom: 0.3em; }
 .reveal h3 { font-size: 1.15em; margin-bottom: 0.25em; margin-top: 0; }
 .reveal table { font-size: 0.58em; margin: 0.25em 0; }
+// reveal.css の html:not(.print-pdf) .reveal table (0,2,2) が margin-left/right を 0 に固定するため、
+// 同詳細度 (0,2,2) の後読みセレクタで中央寄せを上書きする
+.reveal .slides section table {
+  margin-left: auto;
+  margin-right: auto;
+}
 .reveal table th,
 .reveal table td { padding: 0.1em 0.4em; line-height: 1.15; }
 .reveal p { margin: 0.25em 0; line-height: 1.2; }
