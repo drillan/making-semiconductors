@@ -1,0 +1,26 @@
+// 工程種別の色（spec §6.1、solarized アクセント）
+.design   { color: #268bd2; }   // 設計=青
+.frontend { color: #859900; }   // 前工程=緑
+.backend  { color: #cb4b16; }   // 後工程=橙
+.material { color: #6c71c4; }   // 素材=菫
+
+.badge-design   { background:#268bd2; color:#fdf6e3; }
+.badge-frontend { background:#859900; color:#fdf6e3; }
+.badge-backend  { background:#cb4b16; color:#fdf6e3; }
+.badge-material { background:#6c71c4; color:#fdf6e3; }
+
+// 日本企業バッジ（spec §2/§4「日本の強み」テーマ）
+.jp::after {
+  content: "🇯🇵";
+  font-size: 0.7em;
+  margin-left: 0.2em;
+  vertical-align: super;
+}
+
+// 出典行（MyST脚注は使わない — spec §4）
+.source {
+  font-size: 0.5em;
+  color: #93a1a1;   // solarized base1
+  margin-top: 0.6em;
+  display: block;
+}

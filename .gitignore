@@ -4,3 +4,9 @@ __pycache__/
 .superpowers/
 main.py
 hello.py
+
+# sphinx_revealjs.ext.sass compiles slides/_static/*.scss to *.css/*.css.map
+# in-place in the source _static dir (not just _build/) on every build.
+# These are generated artifacts, not source — keep only the .scss.
+slides/_static/custom.css
+slides/_static/custom.css.map

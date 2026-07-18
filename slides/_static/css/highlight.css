@@ -1,0 +1,6 @@
+/* minimal solarized-ish highlight theme (deck にコードは少ないため最小限) */
+.hljs { color: #657b83; background: #fdf6e3; }
+.hljs-keyword, .hljs-selector-tag { color: #859900; }
+.hljs-string, .hljs-attr { color: #2aa198; }
+.hljs-number, .hljs-literal { color: #d33682; }
+.hljs-comment { color: #93a1a1; font-style: italic; }
