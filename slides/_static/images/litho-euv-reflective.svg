@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 380" font-family="'Hiragino Sans','Noto Sans JP',sans-serif">
+  <rect x="0" y="0" width="560" height="380" fill="#fdf6e3"/>
+
+  <!-- keyword badge -->
+  <rect x="20" y="18" width="210" height="34" rx="6" fill="#6c71c4"/>
+  <text x="125" y="41" text-anchor="middle" font-size="16" font-weight="bold" fill="#fdf6e3">反射・ミラー・真空</text>
+
+  <!-- vacuum chamber -->
+  <rect x="30" y="70" width="500" height="288" rx="12" fill="none" stroke="#657b83" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="44" y="90" font-size="13" fill="#657b83">真空チャンバー</text>
+
+  <!-- zigzag reflected beam (bounces off every surface) -->
+  <polyline points="110,120 420,104 169,205 441,262 268,330" fill="none" stroke="#2aa198" stroke-width="2.4"/>
+  <polygon points="268,330 258,314 280,316" fill="#2aa198"/>
+
+  <!-- source -->
+  <text x="108" y="104" text-anchor="middle" font-size="14" fill="#073642">光源 Sn 13.5nm</text>
+  <circle cx="110" cy="120" r="9" fill="#2aa198" stroke="#073642"/>
+
+  <!-- reflective mask (top, light bounces off — not through) -->
+  <rect x="366" y="92" width="108" height="12" fill="#93a1a1" stroke="#586e75"/>
+  <line x1="386" y1="104" x2="386" y2="112" stroke="#586e75"/>
+  <line x1="420" y1="104" x2="420" y2="112" stroke="#586e75"/>
+  <line x1="454" y1="104" x2="454" y2="112" stroke="#586e75"/>
+  <text x="420" y="84" text-anchor="middle" font-size="14" fill="#073642">反射マスク</text>
+
+  <!-- mirror 1 (concave curved surface = lens role) -->
+  <path d="M152,216 Q162,205 200,194" fill="none" stroke="#586e75" stroke-width="9" stroke-linecap="round"/>
+  <path d="M152,216 Q162,205 200,194" fill="none" stroke="#93a1a1" stroke-width="6.5" stroke-linecap="round"/>
+  <text x="128" y="184" font-size="13" fill="#073642">凹面ミラー</text>
+
+  <!-- mirror 2 (concave) -->
+  <path d="M410,251 Q448,262 458,273" fill="none" stroke="#586e75" stroke-width="9" stroke-linecap="round"/>
+  <path d="M410,251 Q448,262 458,273" fill="none" stroke="#93a1a1" stroke-width="6.5" stroke-linecap="round"/>
+  <text x="466" y="256" font-size="13" fill="#073642">凹面ミラー</text>
+
+  <!-- wafer -->
+  <rect x="212" y="332" width="116" height="14" fill="#93a1a1" stroke="#586e75"/>
+  <text x="270" y="366" text-anchor="middle" font-size="14" fill="#073642">ウェハー（レジスト）に縮小投影</text>
+
+  <!-- caption -->
+  <text x="46" y="298" font-size="14" fill="#586e75">光は物質に吸収されるためレンズを使えない</text>
+  <text x="46" y="318" font-size="14" fill="#586e75">曲面（凹面）ミラーの反射で集光・結像する</text>
+</svg>

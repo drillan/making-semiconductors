@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 380" font-family="'Hiragino Sans','Noto Sans JP',sans-serif">
+  <rect x="0" y="0" width="560" height="380" fill="#fdf6e3"/>
+
+  <!-- keyword badge -->
+  <rect x="20" y="18" width="210" height="34" rx="6" fill="#268bd2"/>
+  <text x="125" y="41" text-anchor="middle" font-size="16" font-weight="bold" fill="#fdf6e3">透過・レンズ・大気</text>
+
+  <!-- light beam (passes THROUGH everything) -->
+  <polygon points="280,64 188,196 372,196" fill="#6c71c4" opacity="0.16"/>
+  <polygon points="188,214 372,214 332,322 248,322" fill="#6c71c4" opacity="0.16"/>
+  <line x1="280" y1="64" x2="188" y2="196" stroke="#6c71c4" stroke-width="1.5"/>
+  <line x1="280" y1="64" x2="372" y2="196" stroke="#6c71c4" stroke-width="1.5"/>
+  <line x1="280" y1="64" x2="280" y2="322" stroke="#6c71c4" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="188" y1="214" x2="248" y2="322" stroke="#6c71c4" stroke-width="1.5"/>
+  <line x1="372" y1="214" x2="332" y2="322" stroke="#6c71c4" stroke-width="1.5"/>
+
+  <!-- source -->
+  <text x="280" y="30" text-anchor="middle" font-size="15" fill="#073642">光源  ArF 193nm（DUV光）</text>
+  <circle cx="280" cy="60" r="9" fill="#6c71c4" stroke="#073642"/>
+
+  <!-- transmissive mask (glass, light passes through) -->
+  <rect x="168" y="144" width="224" height="12" fill="#eee8d5" stroke="#657b83"/>
+  <line x1="200" y1="146" x2="200" y2="154" stroke="#657b83"/>
+  <line x1="240" y1="146" x2="240" y2="154" stroke="#657b83"/>
+  <line x1="320" y1="146" x2="320" y2="154" stroke="#657b83"/>
+  <line x1="360" y1="146" x2="360" y2="154" stroke="#657b83"/>
+  <text x="400" y="154" font-size="14" fill="#073642">透過マスク</text>
+
+  <!-- projection lens (biconvex, light refracts through) -->
+  <path d="M186,205 Q280,182 374,205 Q280,228 186,205 Z" fill="#268bd2" opacity="0.32" stroke="#268bd2" stroke-width="2"/>
+  <text x="386" y="210" font-size="14" fill="#073642">投影レンズ</text>
+  <text x="386" y="228" font-size="12" fill="#586e75">（ガラス・透過）</text>
+
+  <!-- wafer -->
+  <rect x="232" y="322" width="116" height="14" fill="#93a1a1" stroke="#586e75"/>
+  <text x="290" y="358" text-anchor="middle" font-size="14" fill="#073642">ウェハー（レジスト）に縮小投影</text>
+
+  <!-- caption -->
+  <text x="30" y="300" font-size="14" fill="#586e75">光がガラス（マスク・レンズ）を</text>
+  <text x="30" y="320" font-size="14" fill="#586e75">通り抜けて結像する</text>
+</svg>

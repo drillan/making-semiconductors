@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" font-family="'Hiragino Sans','Noto Sans JP',sans-serif">
+  <rect x="0" y="0" width="780" height="360" fill="#fdf6e3"/>
+
+  <!-- step titles -->
+  <text x="108" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#073642">①成膜</text>
+  <text x="368" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#073642">②エッチング</text>
+  <text x="615" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#073642">③イオン注入</text>
+
+  <!-- ===== PANEL 1: 成膜 ===== -->
+  <!-- substrate (p-type silicon) -->
+  <polygon points="40,250 150,250 150,214 40,214" fill="#d3a17a" stroke="#8a5a34"/>
+  <polygon points="40,214 150,214 177,192 67,192" fill="#e3b795" stroke="#8a5a34"/>
+  <polygon points="150,250 177,228 177,192 150,214" fill="#b6835d" stroke="#8a5a34"/>
+  <!-- deposited film -->
+  <polygon points="40,214 150,214 150,202 40,202" fill="#7d8f1f" stroke="#4f5c10"/>
+  <polygon points="40,202 150,202 177,180 67,180" fill="#9aad2b" stroke="#4f5c10"/>
+  <polygon points="150,214 177,192 177,180 150,202" fill="#5f6c12" stroke="#4f5c10"/>
+  <text x="108" y="310" text-anchor="middle" font-size="13" fill="#586e75">絶縁膜・ゲート材を積む</text>
+
+  <!-- arrow 1->2 -->
+  <line x1="212" y1="214" x2="256" y2="214" stroke="#586e75" stroke-width="3"/>
+  <polygon points="256,214 244,208 244,220" fill="#586e75"/>
+
+  <!-- ===== PANEL 2: エッチング ===== -->
+  <polygon points="300,250 410,250 410,214 300,214" fill="#d3a17a" stroke="#8a5a34"/>
+  <polygon points="300,214 410,214 437,192 327,192" fill="#e3b795" stroke="#8a5a34"/>
+  <polygon points="410,250 437,228 437,192 410,214" fill="#b6835d" stroke="#8a5a34"/>
+  <!-- etched film remains as a gate stack -->
+  <polygon points="337,214 373,214 373,190 337,190" fill="#7d8f1f" stroke="#4f5c10"/>
+  <polygon points="337,190 373,190 400,168 364,168" fill="#9aad2b" stroke="#4f5c10"/>
+  <polygon points="373,214 400,192 400,168 373,190" fill="#5f6c12" stroke="#4f5c10"/>
+  <text x="355" y="206" text-anchor="middle" font-size="10" fill="#fdf6e3">ゲート</text>
+  <text x="368" y="310" text-anchor="middle" font-size="13" fill="#586e75">不要な膜を削りゲートを残す</text>
+
+  <!-- arrow 2->3 -->
+  <line x1="472" y1="214" x2="516" y2="214" stroke="#586e75" stroke-width="3"/>
+  <polygon points="516,214 504,208 504,220" fill="#586e75"/>
+
+  <!-- ===== PANEL 3: イオン注入 ===== -->
+  <!-- ion beam arrows -->
+  <text x="615" y="98" text-anchor="middle" font-size="12" fill="#6c71c4">不純物イオン</text>
+  <g stroke="#6c71c4" stroke-width="2">
+    <line x1="574" y1="110" x2="578" y2="200"/>
+    <line x1="592" y1="110" x2="594" y2="196"/>
+    <line x1="648" y1="110" x2="650" y2="200"/>
+    <line x1="666" y1="110" x2="666" y2="196"/>
+  </g>
+  <g fill="#6c71c4">
+    <polygon points="578,202 573,192 583,192"/>
+    <polygon points="594,198 589,188 599,188"/>
+    <polygon points="650,202 645,192 655,192"/>
+    <polygon points="666,198 661,188 671,188"/>
+  </g>
+  <!-- substrate -->
+  <polygon points="560,250 670,250 670,214 560,214" fill="#d3a17a" stroke="#8a5a34"/>
+  <polygon points="560,214 670,214 697,192 587,192" fill="#e3b795" stroke="#8a5a34"/>
+  <polygon points="670,250 697,228 697,192 670,214" fill="#b6835d" stroke="#8a5a34"/>
+  <!-- n-type doped regions (front-face cutaway, flanking the gate) -->
+  <rect x="560" y="214" width="37" height="20" fill="#5b9bd0" stroke="#2f6ea0"/>
+  <rect x="633" y="214" width="37" height="20" fill="#5b9bd0" stroke="#2f6ea0"/>
+  <!-- gate -->
+  <polygon points="597,214 633,214 633,190 597,190" fill="#7d8f1f" stroke="#4f5c10"/>
+  <polygon points="597,190 633,190 660,168 624,168" fill="#9aad2b" stroke="#4f5c10"/>
+  <polygon points="633,214 660,192 660,168 633,190" fill="#5f6c12" stroke="#4f5c10"/>
+  <text x="615" y="206" text-anchor="middle" font-size="10" fill="#fdf6e3">ゲート</text>
+  <!-- labels -->
+  <text x="578" y="228" text-anchor="middle" font-size="10" fill="#fdf6e3">n型</text>
+  <text x="652" y="228" text-anchor="middle" font-size="10" fill="#fdf6e3">n型</text>
+  <text x="615" y="246" text-anchor="middle" font-size="11" fill="#073642">p型基板</text>
+  <text x="615" y="310" text-anchor="middle" font-size="13" fill="#586e75">不純物を打ち込みn型/p型を作る</text>
+
+  <!-- legend -->
+  <rect x="250" y="334" width="15" height="12" fill="#d3a17a" stroke="#8a5a34"/>
+  <text x="270" y="344" font-size="12" fill="#073642">p型（基板）</text>
+  <rect x="360" y="334" width="15" height="12" fill="#5b9bd0" stroke="#2f6ea0"/>
+  <text x="380" y="344" font-size="12" fill="#073642">n型（注入領域）</text>
+  <rect x="480" y="334" width="15" height="12" fill="#7d8f1f" stroke="#4f5c10"/>
+  <text x="500" y="344" font-size="12" fill="#073642">膜・ゲート</text>
+</svg>

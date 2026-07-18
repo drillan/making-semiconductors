@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" font-family="'Hiragino Sans','Noto Sans JP',sans-serif">
+  <rect x="0" y="0" width="880" height="340" fill="#fdf6e3"/>
+
+  <text x="440" y="34" text-anchor="middle" font-size="15" fill="#586e75">ON/OFF（1/0）のスイッチを組み合わせて論理ゲートを作る　入出力は真理値表で決まる</text>
+
+  <!-- ========== AND (cx=130) ========== -->
+  <text x="130" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">AND（かつ）</text>
+  <line x1="70" y1="98" x2="100" y2="98" stroke="#073642" stroke-width="2"/>
+  <line x1="70" y1="126" x2="100" y2="126" stroke="#073642" stroke-width="2"/>
+  <text x="64" y="102" text-anchor="end" font-size="12" fill="#073642">A</text>
+  <text x="64" y="130" text-anchor="end" font-size="12" fill="#073642">B</text>
+  <path d="M100,84 H130 A28 28 0 0 1 130,140 H100 Z" fill="#eee8d5" stroke="#073642" stroke-width="2"/>
+  <line x1="158" y1="112" x2="188" y2="112" stroke="#073642" stroke-width="2"/>
+  <text x="194" y="116" font-size="12" fill="#073642">Y</text>
+  <text x="130" y="165" text-anchor="middle" font-size="11" fill="#6c71c4">直列（両方1で1）</text>
+  <g font-size="13" text-anchor="middle">
+    <text x="130" y="192" fill="#073642" font-weight="bold">A B ｜ Y</text>
+    <line x1="90" y1="198" x2="170" y2="198" stroke="#93a1a1"/>
+    <text x="130" y="214" fill="#657b83">0 0 ｜ 0</text>
+    <text x="130" y="232" fill="#657b83">0 1 ｜ 0</text>
+    <text x="130" y="250" fill="#657b83">1 0 ｜ 0</text>
+    <text x="130" y="268" fill="#859900" font-weight="bold">1 1 ｜ 1</text>
+  </g>
+
+  <!-- ========== OR (cx=345) ========== -->
+  <text x="345" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">OR（または）</text>
+  <line x1="281" y1="98" x2="311" y2="98" stroke="#073642" stroke-width="2"/>
+  <line x1="281" y1="126" x2="311" y2="126" stroke="#073642" stroke-width="2"/>
+  <text x="275" y="102" text-anchor="end" font-size="12" fill="#073642">A</text>
+  <text x="275" y="130" text-anchor="end" font-size="12" fill="#073642">B</text>
+  <path d="M311,84 Q329,112 311,140 Q347,140 371,112 Q347,84 311,84 Z" fill="#eee8d5" stroke="#073642" stroke-width="2"/>
+  <line x1="371" y1="112" x2="401" y2="112" stroke="#073642" stroke-width="2"/>
+  <text x="407" y="116" font-size="12" fill="#073642">Y</text>
+  <text x="345" y="165" text-anchor="middle" font-size="11" fill="#6c71c4">並列（どちらか1で1）</text>
+  <g font-size="13" text-anchor="middle">
+    <text x="345" y="192" fill="#073642" font-weight="bold">A B ｜ Y</text>
+    <line x1="305" y1="198" x2="385" y2="198" stroke="#93a1a1"/>
+    <text x="345" y="214" fill="#657b83">0 0 ｜ 0</text>
+    <text x="345" y="232" fill="#859900" font-weight="bold">0 1 ｜ 1</text>
+    <text x="345" y="250" fill="#859900" font-weight="bold">1 0 ｜ 1</text>
+    <text x="345" y="268" fill="#859900" font-weight="bold">1 1 ｜ 1</text>
+  </g>
+
+  <!-- ========== NOT (cx=560) ========== -->
+  <text x="560" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">NOT（反転）</text>
+  <line x1="496" y1="112" x2="526" y2="112" stroke="#073642" stroke-width="2"/>
+  <text x="490" y="116" text-anchor="end" font-size="12" fill="#073642">A</text>
+  <polygon points="526,86 526,138 568,112" fill="#eee8d5" stroke="#073642" stroke-width="2"/>
+  <circle cx="574" cy="112" r="6" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <line x1="580" y1="112" x2="610" y2="112" stroke="#073642" stroke-width="2"/>
+  <text x="616" y="116" font-size="12" fill="#073642">Y</text>
+  <text x="560" y="165" text-anchor="middle" font-size="11" fill="#6c71c4">反転（0↔1）</text>
+  <g font-size="13" text-anchor="middle">
+    <text x="560" y="192" fill="#073642" font-weight="bold">A ｜ Y</text>
+    <line x1="530" y1="198" x2="590" y2="198" stroke="#93a1a1"/>
+    <text x="560" y="214" fill="#859900" font-weight="bold">0 ｜ 1</text>
+    <text x="560" y="232" fill="#657b83">1 ｜ 0</text>
+  </g>
+
+  <!-- ========== XOR (cx=775) ========== -->
+  <text x="775" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">XOR（異なると1）</text>
+  <line x1="703" y1="98" x2="733" y2="98" stroke="#073642" stroke-width="2"/>
+  <line x1="703" y1="126" x2="733" y2="126" stroke="#073642" stroke-width="2"/>
+  <text x="697" y="102" text-anchor="end" font-size="12" fill="#073642">A</text>
+  <text x="697" y="130" text-anchor="end" font-size="12" fill="#073642">B</text>
+  <path d="M733,84 Q751,112 733,140" fill="none" stroke="#073642" stroke-width="2"/>
+  <path d="M741,84 Q759,112 741,140 Q777,140 801,112 Q777,84 741,84 Z" fill="#eee8d5" stroke="#073642" stroke-width="2"/>
+  <line x1="801" y1="112" x2="831" y2="112" stroke="#073642" stroke-width="2"/>
+  <text x="837" y="116" font-size="12" fill="#073642">Y</text>
+  <text x="775" y="165" text-anchor="middle" font-size="11" fill="#6c71c4">異なるとき1（半加算の和）</text>
+  <g font-size="13" text-anchor="middle">
+    <text x="775" y="192" fill="#073642" font-weight="bold">A B ｜ Y</text>
+    <line x1="735" y1="198" x2="815" y2="198" stroke="#93a1a1"/>
+    <text x="775" y="214" fill="#657b83">0 0 ｜ 0</text>
+    <text x="775" y="232" fill="#859900" font-weight="bold">0 1 ｜ 1</text>
+    <text x="775" y="250" fill="#859900" font-weight="bold">1 0 ｜ 1</text>
+    <text x="775" y="268" fill="#657b83">1 1 ｜ 0</text>
+  </g>
+
+  <text x="440" y="312" text-anchor="middle" font-size="14" fill="#586e75">数個〜十数個のトランジスタで1つの論理ゲート　これが計算の最小部品になる</text>
+</svg>
