@@ -24,3 +24,21 @@
   margin-top: 0.6em;
   display: block;
 }
+
+// --- density: fit table-heavy slides within 720px frame ---
+.reveal .slides { font-size: 0.74em; }
+.reveal .slides section { padding-top: 0; }
+.reveal h1 { font-size: 1.7em; margin-bottom: 0.3em; }
+.reveal h2 { font-size: 1.5em; margin-bottom: 0.3em; }
+.reveal h3 { font-size: 1.15em; margin-bottom: 0.25em; margin-top: 0; }
+.reveal table { font-size: 0.58em; margin: 0.25em 0; }
+.reveal table th,
+.reveal table td { padding: 0.1em 0.4em; line-height: 1.15; }
+.reveal p { margin: 0.25em 0; line-height: 1.2; }
+.reveal ul, .reveal ol { margin: 0.2em 0 0.2em 1em; }
+.reveal li { margin: 0.1em 0; line-height: 1.2; }
+.reveal dl { margin: 0.15em 0; font-size: 0.78em; }
+.reveal dl dt { margin-top: 0.1em; line-height: 1.15; }
+.reveal dl dd { margin: 0 0 0.05em 1em; line-height: 1.15; }
+.reveal dl dd p { margin: 0; }
+.reveal .source { font-size: 0.4em; margin-top: 0.3em; }
