@@ -2,63 +2,64 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** sphinx-revealjs で、半導体のバリューチェーン（設計→前工程→後工程→業界俯瞰）を企業・シェア付きで解説する約43枚のHTMLスライドを作る。
+**Goal:** solarized テーマの sphinx-revealjs で半導体バリューチェーンを企業・シェア付きで解説する約43枚のスライド（`slides/`）と、その深掘り・出典・用語集を収めた Furo の補助ドキュメント（`docs/`）を作る。
 
-**Architecture:** `docs/` を Sphinx ソースルートとし、MyST Markdown を部ごとに5ファイル分割（`00-intro.md`〜`04-industry.md`）して `index.md` の toctree で束ねる。図解は sphinx-oceanid の Mermaid、色分け・日本企業バッジ・出典行はカスタムSCSSクラスで実装。既存の `docs/superpowers/**`（spec/plan）は `exclude_patterns` でビルド対象外にする。
+**Architecture:** **2つのSphinxプロジェクト**に分離する。`slides/` はプレゼン本体（sphinx-revealjs, solarized, MyST を部ごと5ファイル分割）。`docs/` は通常のHTMLドキュメント（Furo）で、各部の詳細ページ・データ出典/確度一覧・用語集を置き、スライドが深掘りを委譲する。既存 `docs/superpowers/**`（spec/plan）は docs ビルドの `exclude_patterns` で除外。
 
-**Tech Stack:** Python (uv), Sphinx, sphinx-revealjs, sphinx-revealjs.ext.sass, sphinx-oceanid (Mermaid), MyST。
+**Tech Stack:** Python (uv), Sphinx, sphinx-revealjs, sphinx-revealjs.ext.sass, sphinx-oceanid (Mermaid), Furo, MyST。
 
-**Content source of truth:** すべてのスライドの内容・企業・数値・出典方針は
-`docs/superpowers/specs/2026-07-18-semiconductor-slides-design.md`（特に §3 構成 と 付録A 企業/数値リスト）、
-および根拠調査 `research/2026-07-18-semiconductor-gaps-research.md` に定義済み。本計画はそれを重複させず参照する。
+**Content source of truth:** すべてのスライド／詳細ページの内容・企業・数値・出典方針は
+`docs/superpowers/specs/2026-07-18-semiconductor-slides-design.md`（特に §3 構成、§5 確度区分、§6 2プロジェクト構成、付録A 企業/数値リスト）、および `research/2026-07-18-semiconductor-gaps-research.md` に定義済み。本計画はそれを重複させず参照する。
 
 ## Global Constraints
 
-- スライド構造は見出し階層で表す：`#`=タイトルスライド / `##`=各部の区切り / `###`=個別スライド（spec §6）
-- **list-table は最大3列厳守**（revealjs-authoring スキル）。4項目以上を比べる場合は属性統合か2枚分割（spec §4）
-- 図は Mermaid（sphinx-oceanid のサポート型のみ：flowchart / sequence / class / state / er / xychart-beta 等）
-- **出典はMyST脚注を使わない**。各スライド末尾に小文字テキスト行＋CSSクラス `.source` で表示し、数値の隣に取得年を併記（spec §4/§5）
-- 色の約束：設計=青 / 前工程=緑 / 後工程=橙 / 素材=紫。日本企業はバッジ強調（spec §4、CSSクラスで実装）
+- **2プロジェクト**：スライド本体＝`slides/`、補助ドキュメント＝`docs/`（spec §6）
+- スライドテーマ＝**solarized**（`revealjs_style_theme = "solarized"`）。docs テーマ＝**Furo**
+- スライド構造は見出し階層：`#`=タイトル / `##`=部区切り / `###`=個別スライド（spec §6.1）
+- **list-table は最大3列厳守**。4項目以上は属性統合か2枚分割（spec §4）
+- 図は Mermaid（sphinx-oceanid のサポート型：flowchart / sequence / class / state / er / xychart-beta 等）
+- **出典はMyST脚注を使わない**。各スライド末尾に小文字の出典行＋CSSクラス `.source`、数値の隣に取得年。
+  **完全な出典URL一覧は docs の `sources` ページに集約**し、スライド出典行は要約＋docs導線に留める（spec §4/§5）
+- 工程色は **solarized アクセント**：設計=青`#268bd2` / 前工程=緑`#859900` / 後工程=橙`#cb4b16` / 素材=菫`#6c71c4`。
+  日本企業はバッジ強調（CSSクラスで実装、spec §4/§6.1）
 - 数値の**確度区分を厳守**（spec §5）：確度高＝断定可 / 概況＝「約」「〜年時点」で丸め。
   再確認対象（AMATイオン注入%、KLA指標、京セラEMC買収、Heraeus%）は数値を断定しない
 - 断定禁止：熱処理・ALDの企業別シェア序列（spec §7）。荏原CMP2位・KOKUSAI単独序列は「概況」扱い
-- 各コンテンツタスクは `uv run make -C docs revealjs` が**警告・エラーなく**通ることを完了条件に含める
-- コミットはタスク単位で頻繁に。コミットメッセージ末尾に
-  `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>` を付す
+- 各コンテンツタスクは該当プロジェクトのビルドが**警告・エラーなく**通ることを完了条件に含める
+  （slides: `uv run make -C slides revealjs` / docs: `uv run make -C docs html`）
+- コミットはタスク単位。メッセージ末尾に `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`
 
 ---
 
-### Task 1: プロジェクト雛形（Sphinx + revealjs ビルドが通る最小構成）
+### Task 1: `slides/` 雛形（sphinx-revealjs + solarized ビルドが通る最小構成）
 
 **Files:**
-- Create: `pyproject.toml`（uv 管理）
-- Create: `docs/conf.py`
-- Create: `docs/index.md`
-- Create: `docs/Makefile`（`sphinx-build` スキルの雛形に準拠）
+- Create: `pyproject.toml`（uv 管理、リポジトリ共通）
+- Create: `slides/conf.py`, `slides/index.md`, `slides/Makefile`
 - Create: `.gitignore`
 
 **Interfaces:**
-- Produces: ビルドコマンド `uv run make -C docs revealjs`、出力 `docs/_build/revealjs/index.html`、
-  Sphinx ソースルート `docs/`、toctree ルート `docs/index.md`
+- Produces: ビルド `uv run make -C slides revealjs` → `slides/_build/revealjs/index.html`、
+  ソースルート `slides/`、toctree ルート `slides/index.md`
 
-> 補足：`revealjs-init` スキルは「既存 docs/ なし」が前提だが、本リポジトリには既に `docs/superpowers/**` が
-> あるため使えない。よって手動スキャフォールドする。conf.py の細部（sass拡張・ハイライトCSS・プラグイン）で
-> 迷ったら `revealjs-config` スキルを参照して補正する（目標状態は下記の通り）。
+> 注：`revealjs-init` スキルは既定で `docs/` に雛形を作るが、本構成では `docs/` を補助ドキュメントに充てる
+> ため使わず手動スキャフォールドする。sass拡張・ハイライトCSS・プラグインの設定キー名で迷ったら
+> `revealjs-config` スキルで補正（目標状態は下記）。
 
 - [ ] **Step 1: uv プロジェクト初期化と依存追加**
 
 ```bash
 cd /home/driller/repo/making-semiconductors
 uv init --no-workspace --name making-semiconductors --python 3.12
-uv add sphinx sphinx-revealjs sphinx-oceanid libsass
+uv add sphinx sphinx-revealjs sphinx-oceanid libsass furo
 ```
 
-Expected: `pyproject.toml` と `uv.lock` が生成され、依存が解決される。
+Expected: `pyproject.toml` と `uv.lock` が生成される（furo は Task 10 の docs で使用）。
 
-- [ ] **Step 2: `docs/conf.py` を作成**
+- [ ] **Step 2: `slides/conf.py` を作成**
 
 ```python
-# docs/conf.py
+# slides/conf.py
 project = "半導体の製造工程と関連企業"
 author = "eleshis"
 release = "2026-07-18"
@@ -72,27 +73,23 @@ extensions = [
 ]
 
 myst_enable_extensions = ["colon_fence", "deflist", "attrs_block", "attrs_inline"]
-
-# 既存の spec/plan は本スライドのビルド対象外
-exclude_patterns = ["_build", "superpowers/**", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 revealjs_static_path = ["_static"]
-revealjs_style_theme = "white"
+revealjs_style_theme = "solarized"
 revealjs_script_conf = {
     "width": 1280,
     "height": 720,
     "slideNumber": "c/t",
     "hash": True,
 }
-# ハイライトCSSは必須（可視化のため）。_static/css に配置し下で読み込む。
-revealjs_css_files = ["css/custom.css"]
+revealjs_css_files = ["css/custom.css"]  # Task 2 でハイライトCSSも追加
 ```
 
-> 注：`revealjs_css_files` にハイライトテーマCSSが要る（revealjs-config スキル指摘）。Task 2 で
-> `_static/css/` にハイライトCSSを置き、必要ならこの配列に追記する。sass拡張の入力/出力設定名は
-> `revealjs-config` スキルで確認して合わせる。
+> 注：ハイライトテーマCSSは必須（revealjs-config スキル指摘）。Task 2 で `_static/css/` に配置し
+> この配列へ追記。sass拡張の入力/出力設定キー名は revealjs-config スキルで確認して合わせる。
 
-- [ ] **Step 3: `docs/index.md`（toctree ルート）を作成**
+- [ ] **Step 3: `slides/index.md`（toctree ルート）を作成**
 
 ````markdown
 # 半導体の製造工程と関連企業
@@ -109,10 +106,10 @@ revealjs_css_files = ["css/custom.css"]
 ```
 ````
 
-- [ ] **Step 4: `docs/Makefile` を作成（sphinx-build スキルの標準雛形）**
+- [ ] **Step 4: `slides/Makefile` を作成**
 
 ```makefile
-# docs/Makefile
+# slides/Makefile
 SPHINXBUILD ?= sphinx-build
 SOURCEDIR   = .
 BUILDDIR    = _build
@@ -127,75 +124,66 @@ clean:
 	rm -rf "$(BUILDDIR)"
 ```
 
-- [ ] **Step 5: 各部の最小ファイルを作成（ビルドを通すためのプレースホルダ見出しのみ）**
+- [ ] **Step 5: 各部の最小ファイルを作成（足場：部タイトルのみ、後続タスクで差し替え）**
 
-`docs/00-intro.md` … `docs/04-industry.md` を作り、各ファイル先頭に部タイトルだけ置く。例：
-
-```markdown
-# 導入
-## 導入
-```
-
-（他4ファイルも同様に `# 設計` `# 前工程` `# 後工程` `# 業界俯瞰` を置く。内容は後続タスクで差し替え）
+`slides/00-intro.md`…`slides/04-industry.md` を作り、各先頭に
+`# 導入` / `# 設計` / `# 前工程` / `# 後工程` / `# 業界俯瞰` と、直後に `## <同名>` を置く。
 
 - [ ] **Step 6: `.gitignore` を作成**
 
 ```gitignore
-docs/_build/
+_build/
 .venv/
 __pycache__/
 ```
 
 - [ ] **Step 7: ビルドしてスモーク確認**
 
-Run: `uv run make -C docs revealjs`
-Expected: エラーなく完了し、`docs/_build/revealjs/index.html` が生成される。
-
-Run: `test -f docs/_build/revealjs/index.html && echo OK`
+Run: `uv run make -C slides revealjs`
+Expected: エラーなく完了、`slides/_build/revealjs/index.html` 生成。
+Run: `test -f slides/_build/revealjs/index.html && echo OK`
 Expected: `OK`
 
 - [ ] **Step 8: コミット**
 
 ```bash
-git add pyproject.toml uv.lock docs/conf.py docs/index.md docs/Makefile docs/00-intro.md docs/01-design.md docs/02-frontend.md docs/03-backend.md docs/04-industry.md .gitignore
-git commit -m "chore: scaffold sphinx-revealjs slide project
+git add pyproject.toml uv.lock slides/ .gitignore
+git commit -m "chore: scaffold slides/ sphinx-revealjs project (solarized)
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ```
 
 ---
 
-### Task 2: カスタムSCSS（色分け・日本企業バッジ・出典行）と Mermaid スモーク
+### Task 2: `slides/` カスタムSCSS（solarized調の工程色・日本企業バッジ・出典行）と Mermaid スモーク
 
 **Files:**
-- Create: `docs/_static/scss/custom.scss`（sass拡張でコンパイル）
-- Modify: `docs/conf.py`（sass入出力とハイライトCSSの設定を確定）
-- Create: `docs/_static/css/`（ハイライトCSS配置先）
+- Create: `slides/_static/scss/custom.scss`
+- Modify: `slides/conf.py`（sass入出力・ハイライトCSSを確定）
+- Create: `slides/_static/css/`（ハイライトCSS配置先）
 
 **Interfaces:**
-- Produces: CSSクラス `.design` `.frontend` `.backend` `.material`（工程色）、`.jp`（日本企業バッジ）、
-  `.source`（出典行）。後続の全コンテンツタスクがこれらを使う。
+- Produces: CSSクラス `.design/.frontend/.backend/.material`（工程色）、`.jp`（日本企業バッジ）、
+  `.source`（出典行）。後続の全スライドタスクが使用。
 
-- [ ] **Step 1: `revealjs-config` スキルを参照して sass 拡張とハイライトCSSを conf.py に設定**
+- [ ] **Step 1: `revealjs-config` スキルを参照し sass拡張とハイライトCSSを conf.py に設定**
 
-目標状態：`docs/_static/scss/custom.scss` が `_static/css/custom.css` にコンパイルされ、
+目標状態：`slides/_static/scss/custom.scss` → `_static/css/custom.css` にコンパイルされ、
 `revealjs_css_files` にハイライトテーマCSS（例 `css/highlight-github.css`）と `css/custom.css` が入る。
-（設定キー名の正確な綴りは revealjs-config スキルに従う）
 
-- [ ] **Step 2: `docs/_static/scss/custom.scss` を作成**
+- [ ] **Step 2: `slides/_static/scss/custom.scss` を作成（solarized アクセント）**
 
 ```scss
-// 工程種別の色（spec §4）
-.design   { color: #1f6feb; }   // 設計=青
-.frontend { color: #2ea043; }   // 前工程=緑
-.backend  { color: #e0873d; }   // 後工程=橙
-.material { color: #8957e5; }   // 素材=紫
+// 工程種別の色（spec §6.1、solarized アクセント）
+.design   { color: #268bd2; }   // 設計=青
+.frontend { color: #859900; }   // 前工程=緑
+.backend  { color: #cb4b16; }   // 後工程=橙
+.material { color: #6c71c4; }   // 素材=菫
 
-// 見出し帯にも使えるよう背景版
-.badge-design   { background:#1f6feb; color:#fff; }
-.badge-frontend { background:#2ea043; color:#fff; }
-.badge-backend  { background:#e0873d; color:#fff; }
-.badge-material { background:#8957e5; color:#fff; }
+.badge-design   { background:#268bd2; color:#fdf6e3; }
+.badge-frontend { background:#859900; color:#fdf6e3; }
+.badge-backend  { background:#cb4b16; color:#fdf6e3; }
+.badge-material { background:#6c71c4; color:#fdf6e3; }
 
 // 日本企業バッジ（spec §2/§4「日本の強み」テーマ）
 .jp::after {
@@ -208,13 +196,13 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 // 出典行（MyST脚注は使わない — spec §4）
 .source {
   font-size: 0.5em;
-  color: #8b949e;
+  color: #93a1a1;   // solarized base1
   margin-top: 0.6em;
   display: block;
 }
 ```
 
-- [ ] **Step 3: `docs/00-intro.md` に Mermaid スモークと `.source` を仮置き**
+- [ ] **Step 3: `slides/00-intro.md` に Mermaid スモークと `.source` を仮置き**
 
 ````markdown
 # 導入
@@ -231,37 +219,34 @@ flowchart LR
 
 - [ ] **Step 4: ビルドして Mermaid とCSSクラスの反映を確認**
 
-Run: `uv run make -C docs revealjs`
-Expected: エラー・警告なく完了。
+Run: `uv run make -C slides revealjs`
+Expected: 警告・エラーなし。
+Run: `grep -R "class=\"source\"" slides/_build/revealjs/ | head -1`
+Expected: `.source` クラスがHTMLに出力（1行以上）。
+Run: `grep -R "mermaid" slides/_build/revealjs/00-intro.html | head -1`
+Expected: Mermaid 描画要素が出力。
 
-Run: `grep -R "class=\"source\"" docs/_build/revealjs/ | head -1`
-Expected: `.source` クラスがHTMLに出力されている（1行以上ヒット）。
+- [ ] **Step 5: ブラウザ目視（推奨）**
 
-Run: `grep -R "mermaid" docs/_build/revealjs/00-intro.html | head -1`
-Expected: Mermaid の描画要素が出力されている。
-
-- [ ] **Step 5: ブラウザ目視（任意だが推奨）**
-
-`run` スキルまたは手動で `docs/_build/revealjs/index.html` を開き、Mermaid図が描画され、
-`.source` 行が小さく灰色で出ることを確認。
+`run` スキルまたは手動で `slides/_build/revealjs/index.html` を開き、solarized配色・Mermaid描画・
+`.source` 行が小さく出ることを確認。
 
 - [ ] **Step 6: コミット**
 
 ```bash
-git add docs/_static docs/conf.py docs/00-intro.md
-git commit -m "feat: add custom SCSS (process colors, JP badge, source line) and mermaid smoke
+git add slides/_static slides/conf.py slides/00-intro.md
+git commit -m "feat: add slides SCSS (solarized process colors, JP badge, source line) + mermaid smoke
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ```
 
 ---
 
-### コンテンツ実装の共通ルール（Task 4〜9 で使う MyST テンプレート）
+### コンテンツ実装の共通ルール（Task 3〜9 のスライド用 MyST テンプレート）
 
-各コンテンツタスクは spec §3 のスライド定義と 付録A のデータを、以下のテンプレートに落とす。
-**新しい事実を発明しない**。企業・数値・出典は spec/調査レポートにある範囲のみ。
+各スライドタスクは spec §3 のスライド定義と 付録A のデータを、以下に落とす。**新しい事実を発明しない**。
 
-**A. 工程スライドの定型3ブロック**（spec §4：①何をする→②図→③企業＋シェア）
+**A. 工程スライドの定型3ブロック**（①何をする→②図→③企業＋シェア）
 
 ````markdown
 ### ③リソグラフィ / 露光
@@ -287,10 +272,10 @@ flowchart LR
   - 成熟ノードで競合（各約5%、EUV非供給）
 ```
 
-[出典: 装置シェアは概況/2024、spec 付録A。EUV独占は複数一次情報]{.source}
+[出典: 装置シェアは概況/2024。詳細は docs「前工程」ページ]{.source}
 ````
 
-**B. 3列に収まらない比較（例：スライド2の半導体種類）** → 属性を「用途・特徴」に統合し3列に：
+**B. 3列に収まらない比較（例：スライド2）** → 属性を「用途・特徴」に統合し3列に：
 
 ```{list-table}
 :header-rows: 1
@@ -303,298 +288,239 @@ flowchart LR
   - TSMC / NVIDIA / Intel
 ```
 
-**C. 日本企業の強調** → セル内でロール付き：`` {span}`扶桑化学`{.jp} `` のように `.jp` を付す
-（コンパイル後にバッジが出る。バッジが崩れる場合は行末に `🇯🇵` を直接置くフォールバックでも可）。
+**C. 日本企業の強調** → `` {span}`扶桑化学`{.jp} `` のように `.jp` を付す（崩れる場合は行末に `🇯🇵` フォールバック）。
 
-**D. 出典行** → 各 `###` スライド末尾に必ず1行 `[出典: … , 取得年]{.source}` を置く。
+**D. 出典行＋docs導線** → 各 `###` スライド末尾に `[出典: …, 取得年。詳細は docs「<部>」ページ]{.source}`。
 確度高は断定、概況は「約」。再確認対象（AMAT注入%・KLA指標・京セラ買収・Heraeus%）は数値を書かず定性表現。
 
-各コンテンツタスクの完了条件（共通）：
-- `uv run make -C docs revealjs` が警告・エラーなく通る
-- そのファイルの `###` 見出し数が spec §3 の該当枚数と一致（`grep -c '^### ' docs/<file>.md`）
-- そのファイルの各 `###` ブロックに `.source` 行が1つ以上ある
+**各スライドタスクの完了条件（共通）:**
+- `uv run make -C slides revealjs` が警告・エラーなく通る
+- そのファイルの `###` 見出し数が spec §3 の該当枚数と一致（`grep -c '^### ' slides/<file>.md`）
+- 各 `###` ブロックに `.source` 行が1つ以上ある
 
 ---
 
 ### Task 3: 第0部 導入（スライド1〜3）
 
-**Files:**
-- Modify: `docs/00-intro.md`
+**Files:** Modify `slides/00-intro.md`
+**Interfaces:** Consumes Task 2 のCSS。Produces バリューチェーン鳥瞰図。
 
-**Interfaces:**
-- Consumes: Task 2 のCSSクラス。Produces: バリューチェーン鳥瞰図（後続の各部が参照する全体像）。
-
-- [ ] **Step 1: スライド1〜3 を実装**
-
-spec §3 第0部に従い、`docs/00-intro.md` を差し替え：
-1. タイトルスライド（`#` タイトル＋副題）
-2. 半導体の種類（テンプレB の3列 list-table：ロジック/DRAM/NAND/パワー × 用途・特徴 × 代表企業。
-   「本編は先端ロジック/メモリを軸に」と明示）
-3. 全体像アジェンダ（テンプレA の Mermaid で 設計→前工程→後工程→業界俯瞰 の鳥瞰図。工程色クラスを付与）
-
-Task 2 で置いたスモークの `### スモークテスト` は削除する。
-
-- [ ] **Step 2: ビルドと構造チェック**
-
-Run: `uv run make -C docs revealjs`
-Expected: 警告・エラーなし。
-
-Run: `grep -c '^### ' docs/00-intro.md`
-Expected: `3`
-
-- [ ] **Step 3: コミット**
-
-```bash
-git add docs/00-intro.md
-git commit -m "feat: add part 0 intro slides (semiconductor types, value-chain overview)
-
-Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
-```
+- [ ] **Step 1:** spec §3 第0部に従い実装。1.タイトル / 2.半導体の種類（テンプレB 3列：ロジック/DRAM/NAND/パワー、「本編は先端ロジック/メモリ軸」明示）/ 3.全体像アジェンダ（テンプレA Mermaid 鳥瞰図、工程色）。Task 2 のスモーク `### スモークテスト` は削除。
+- [ ] **Step 2:** `uv run make -C slides revealjs`（警告なし）／ `grep -c '^### ' slides/00-intro.md` → `3`
+- [ ] **Step 3:** コミット `feat: add part 0 intro slides`
 
 ---
 
 ### Task 4: 第1部 設計（スライド4〜7）
 
-**Files:**
-- Modify: `docs/01-design.md`
+**Files:** Modify `slides/01-design.md`
+**Interfaces:** Produces 分業構造の語彙。
 
-**Interfaces:**
-- Consumes: 鳥瞰図の設計フェーズ。Produces: 分業構造（IDM/ファブレス/ファウンドリ/OSAT）の語彙（後続で参照）。
-
-- [ ] **Step 1: スライド4〜7 を実装（spec §3 第1部 / 付録A 設計エコシステム）**
-
-4. 産業の分業構造（Mermaid で IDM / ファブレス / ファウンドリ / OSAT の関係図）
-5. 設計工程の流れ（仕様→論理→回路→レイアウト→検証、Mermaid）
-6. EDA・IP・ISA（3列表：EDA=Synopsys/Cadence/Siemens EDA、IP=Arm、オープンISA=RISC-V〔Tenstorrent〕）
-7. 主要ファブレス（3列表：NVIDIA/Qualcomm/AMD/Apple/Broadcom と主力領域）
-
-- [ ] **Step 2: ビルドと構造チェック**
-
-Run: `uv run make -C docs revealjs`
-Expected: 警告・エラーなし。
-Run: `grep -c '^### ' docs/01-design.md`
-Expected: `4`
-
-- [ ] **Step 3: コミット**
-
-```bash
-git add docs/01-design.md
-git commit -m "feat: add part 1 design slides (fabless/foundry split, EDA/IP/RISC-V, fabless leaders)
-
-Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
-```
+- [ ] **Step 1:** spec §3 第1部 / 付録A 設計エコシステムに従い実装。4.分業構造（Mermaid IDM/ファブレス/ファウンドリ/OSAT）/ 5.設計フロー（仕様→論理→回路→レイアウト→検証）/ 6.EDA・IP・ISA（3列：Synopsys/Cadence/Siemens EDA、Arm、RISC-V〔Tenstorrent〕）/ 7.主要ファブレス（NVIDIA/Qualcomm/AMD/Apple/Broadcom）
+- [ ] **Step 2:** ビルド（警告なし）／ `grep -c '^### ' slides/01-design.md` → `4`
+- [ ] **Step 3:** コミット `feat: add part 1 design slides`
 
 ---
 
 ### Task 5: 第2部 前工程① フロー〜マスク（スライド8〜14）
 
-**Files:**
-- Modify: `docs/02-frontend.md`（前半を追記）
+**Files:** Modify `slides/02-frontend.md`（前半）
+**Interfaces:** Produces 前工程フロー図。
 
-**Interfaces:**
-- Consumes: 分業構造の語彙。Produces: 前工程フロー図（Task 6 のまとめが参照）。
-
-- [ ] **Step 1: スライド8〜14 を実装（spec §3 第2部前半 / 付録A 前工程装置・材料）**
-
-8. 前工程全体フロー（Mermaid：成膜→リソ→エッチング→注入→CMP→洗浄→検査 のループ、前工程色）
-9. ①ウェハー製造＋素材（信越化学・SUMCO、`.jp`）
-10. ②成膜 CVD/PVD/ALD＋装置（AMAT/TEL/Lam/ASM International）＋熱処理（縦型炉 **TEL/KOKUSAI/ASM の3社で73%超**、序列は断定しない）
-11. 成膜の材料（前駆体・特殊ガス：関東電化/大陽日酸/レゾナック/Air Liquide/Merck、スパッタターゲット：JX金属 約60%）
-12-13. ③リソグラフィ/露光（テンプレAの例そのもの：ASML=EUV独占、Nikon/Canon=DUV競合、コータ/デベロッパ=TEL、レジスト=JSR/東京応化/信越）
-14. マスク製造エコシステム（NuFlare描画 / レーザーテック＝**アクチニック（EUV光源）検査でほぼ100%** / **AGC約59%＞HOYA約34%** / 三井化学ペリクル。★日本の強み、`.jp`多用）
-
-> 注：スライド14のレーザーテックは必ず「アクチニック」限定を残す。ブランクスは AGC→HOYA の順（数字順）。
-
-- [ ] **Step 2: ビルドと構造チェック**
-
-Run: `uv run make -C docs revealjs`
-Expected: 警告・エラーなし。
-Run: `grep -c '^### ' docs/02-frontend.md`
-Expected: この時点で `7`（スライド8〜14）
-
-- [ ] **Step 3: レーザーテックの限定表現を検証**
-
-Run: `grep -n "アクチニック" docs/02-frontend.md`
-Expected: スライド14に1件ヒット（限定条件が残っている）。
-
-- [ ] **Step 4: コミット**
-
-```bash
-git add docs/02-frontend.md
-git commit -m "feat: add front-end slides 8-14 (flow, wafer, deposition, litho, mask ecosystem)
-
-Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
-```
+- [ ] **Step 1:** spec §3 第2部前半 / 付録A に従い実装。8.前工程全体フロー（Mermaid、前工程色）/ 9.①ウェハー製造＋素材（信越化学・SUMCO `.jp`）/ 10.②成膜CVD/PVD/ALD＋装置（AMAT/TEL/Lam/ASM International）＋熱処理（縦型炉 **TEL/KOKUSAI/ASM 3社で73%超**、序列断定しない）/ 11.成膜材料（前駆体・特殊ガス：関東電化/大陽日酸/レゾナック/Air Liquide/Merck、スパッタターゲット：JX金属 約60%）/ 12-13.③リソグラフィ/露光（テンプレAの例：ASML=EUV独占、Nikon/Canon=DUV競合、コータ/デベロッパ=TEL、レジスト=JSR/東京応化/信越）/ 14.マスク製造エコシステム（NuFlare描画 / レーザーテック=**アクチニック（EUV光源）検査でほぼ100%** / **AGC約59%＞HOYA約34%** / 三井化学ペリクル。★日本の強み、`.jp`多用）
+- [ ] **Step 2:** ビルド（警告なし）／ `grep -c '^### ' slides/02-frontend.md` → `7`
+- [ ] **Step 3（ガード）:** `grep -n "アクチニック" slides/02-frontend.md` → スライド14に1件
+- [ ] **Step 4:** コミット `feat: add front-end slides 8-14`
 
 ---
 
 ### Task 6: 第2部 前工程② エッチング〜まとめ（スライド15〜22）
 
-**Files:**
-- Modify: `docs/02-frontend.md`（後半を追記）
+**Files:** Modify `slides/02-frontend.md`（後半）
+**Interfaces:** Produces 装置マップ／材料マップ。
 
-**Interfaces:**
-- Consumes: 前工程フロー図。Produces: 装置マップ／材料マップ（第4部 業界俯瞰が参照）。
-
-- [ ] **Step 1: スライド15〜22 を実装（spec §3 第2部後半 / 付録A）**
-
-15. ④エッチング（Lam/TEL）＋エッチングガス
-16. ⑤イオン注入（AMAT〔首位、**%は書かない＝再確認対象**〕/Axcelis/住友重機械）
-17. ⑥CMP（装置：AMAT/荏原〔世界2位＝概況〕、スラリー：Entegris/DuPont/フジミ、**砥粒コロイダルシリカ：扶桑化学 世界90%超**`.jp`、パッド：DuPont約80%＝日本の弱点）
-18. ⑦洗浄（SCREEN＝**枚葉式**31%首位/TEL、薬液：ステラケミファ/森田化学/三菱ガス化学）
-19. ⑧計測・検査（KLA＝プロセス制御首位〔**"17%超"は書かない＝再確認対象**〕/日立ハイテク/Onto/Nova/Bruker、市場はWFEの約14%、NIST計測ギャップに言及）
-20. 微細化と配線革新（FinFET→GAA、BSPDN、High-NA、**W→モリブデンALD**〔Lam ALTUS Halo 2025〕）
-21-22. 前工程まとめ（装置マップ／材料マップ：ここまでの企業を工程色で一覧化、2枚）
-
-> 注：スライド18は「枚葉式」（「単葉式」ではない）。スライド16/19は疑義数値を書かず定性表現。
-
-- [ ] **Step 2: ビルドと構造チェック**
-
-Run: `uv run make -C docs revealjs`
-Expected: 警告・エラーなし。
-Run: `grep -c '^### ' docs/02-frontend.md`
-Expected: `15`（第2部合計＝8〜22）
-
-- [ ] **Step 3: 誤記・疑義数値のガード**
-
-Run: `grep -n "単葉式" docs/02-frontend.md || echo "OK-no-typo"`
-Expected: `OK-no-typo`（「単葉式」が存在しない）。
-Run: `grep -n "枚葉式" docs/02-frontend.md`
-Expected: スライド18に1件ヒット。
-
-- [ ] **Step 4: コミット**
-
-```bash
-git add docs/02-frontend.md
-git commit -m "feat: add front-end slides 15-22 (etch, implant, CMP, clean, metrology, scaling, maps)
-
-Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
-```
+- [ ] **Step 1:** spec §3 第2部後半 / 付録A に従い実装。15.④エッチング（Lam/TEL）＋ガス / 16.⑤イオン注入（AMAT〔首位、**%を書かない=再確認**〕/Axcelis/住友重機械）/ 17.⑥CMP（装置：AMAT/荏原〔世界2位=概況〕、スラリー：Entegris/DuPont/フジミ、**砥粒コロイダルシリカ：扶桑化学 世界90%超** `.jp`、パッド：DuPont約80%=日本の弱点）/ 18.⑦洗浄（SCREEN=**枚葉式**31%首位/TEL、薬液：ステラケミファ/森田化学/三菱ガス化学）/ 19.⑧計測・検査（KLA=プロセス制御首位〔**"17%超"を書かない=再確認**〕/日立ハイテク/Onto/Nova/Bruker、市場はWFEの約14%、NIST計測ギャップ）/ 20.微細化と配線革新（FinFET→GAA、BSPDN、High-NA、**W→モリブデンALD**〔Lam ALTUS Halo 2025〕）/ 21-22.前工程まとめ（装置マップ／材料マップ 2枚）
+- [ ] **Step 2:** ビルド（警告なし）／ `grep -c '^### ' slides/02-frontend.md` → `15`
+- [ ] **Step 3（ガード）:** `grep -n "単葉式" slides/02-frontend.md || echo OK-no-typo` → `OK-no-typo`；`grep -n "枚葉式" slides/02-frontend.md` → スライド18に1件
+- [ ] **Step 4:** コミット `feat: add front-end slides 15-22`
 
 ---
 
 ### Task 7: 第3部 後工程（スライド23〜31）
 
-**Files:**
-- Modify: `docs/03-backend.md`
+**Files:** Modify `slides/03-backend.md`
+**Interfaces:** Produces HBM/OSAT/先端パッケージの語彙。
 
-**Interfaces:**
-- Consumes: 前工程完了（薄化前のウェハー）。Produces: HBM/OSAT/先端パッケージの語彙（第4部が参照）。
-
-- [ ] **Step 1: スライド23〜31 を実装（spec §3 第3部 / 付録A 後工程）**
-
-23. 後工程全体（Mermaid：裏面研削→ダイシング→ボンディング→封止→検査、後工程色）
-24. バックグラインド・ダイシング（ディスコ/東京精密、`.jp`、積層・薄型化と接続）
-25. ボンディング・封止＋装置（ASMPT/Kulicke & Soffa/Besi/新川）
-26. 後工程材料（封止材：**住友ベークライト世界1位**`.jp`／アンダーフィル：ナミックス〔独立系〕／ボンディングワイヤ：田中電子・日鉄マイクロメタル〔**全体首位は Heraeus、%は書かない**〕／リードフレーム：**三井ハイテック世界1位**`.jp`）
-27. パッケージ基板（FC-BGA、**ABF=味の素**〔PC向けほぼ100%〕`.jp`、ガラスコア=Intel、Ibiden/新光/Unimicron/AT&S）
-28. 先端パッケージング（各社ブランド：CoWoS/InFO/SoIC・Foveros/EMIB・I-Cube/X-Cube＋**UCIe**創設メンバー）
-29. 積層化・3D実装（ハイブリッドボンディング/WoW/TSV、HBM積層構造を Mermaid で図解）
-30. テスト工程（Advantest/Teradyne）＋OSAT順位（ASE/Amkor/JCET）
-31. 後工程まとめ
-
-- [ ] **Step 2: ビルドと構造チェック**
-
-Run: `uv run make -C docs revealjs`
-Expected: 警告・エラーなし。
-Run: `grep -c '^### ' docs/03-backend.md`
-Expected: `9`
-
-- [ ] **Step 3: コミット**
-
-```bash
-git add docs/03-backend.md
-git commit -m "feat: add part 3 back-end slides (dicing, packaging, ABF substrate, HBM/3D, test)
-
-Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
-```
+- [ ] **Step 1:** spec §3 第3部 / 付録A に従い実装。23.後工程全体（Mermaid、後工程色）/ 24.バックグラインド・ダイシング（ディスコ/東京精密 `.jp`）/ 25.ボンディング・封止＋装置（ASMPT/Kulicke & Soffa/Besi/新川）/ 26.後工程材料（封止材：**住友ベークライト世界1位** `.jp` / アンダーフィル：ナミックス〔独立系〕 / ボンディングワイヤ：田中電子・日鉄マイクロメタル〔**全体首位は Heraeus、%を書かない**〕 / リードフレーム：**三井ハイテック世界1位** `.jp`）/ 27.パッケージ基板（FC-BGA、**ABF=味の素**〔PC向けほぼ100%〕 `.jp`、ガラスコア=Intel、Ibiden/新光/Unimicron/AT&S）/ 28.先端パッケージング（CoWoS/InFO/SoIC・Foveros/EMIB・I-Cube/X-Cube＋**UCIe**創設メンバー）/ 29.積層化・3D実装（ハイブリッドボンディング/WoW/TSV、HBM積層を Mermaid）/ 30.テスト（Advantest/Teradyne）＋OSAT順位（ASE/Amkor/JCET）/ 31.後工程まとめ
+- [ ] **Step 2:** ビルド（警告なし）／ `grep -c '^### ' slides/03-backend.md` → `9`
+- [ ] **Step 3:** コミット `feat: add part 3 back-end slides`
 
 ---
 
 ### Task 8: 第4部 業界俯瞰（スライド32〜41）
 
+**Files:** Modify `slides/04-industry.md`（32〜41）
+**Interfaces:** Produces 全体企業マップ・日本の強み総まとめ。
+
+- [ ] **Step 1:** spec §3 第4部 / 付録A に従い実装。32.全体×企業マップ（Mermaid＋工程色）/ 33.装置業界シェア（**ASML>AMAT>Lam>TEL>KLA**、トップ5でトップ10の約85%、xychart-beta 可）/ 34.素材業界と日本（材料世界の約48%）/ 35.**日本の強み総まとめ**（確度高：レーザーテック/扶桑化学/信越化学/JX金属/三井化学/三井ハイテック・住友ベークライト `.jp`。弱点：CMPパッド=DuPont約80%。※荏原・KOKUSAIは概況注記で「確度高断定」枠外）/ 36.ファウンドリ勢力図（TSMC/Samsung/Intel、2〜3nm、Rapidus。**Rapidus×Tenstorrent は2nm IP共同開発提携〔2023-11〕で製造委託ではない**）/ 37.メモリ（DRAM：Samsung/SK hynix/Micron、NAND：層数競争/Kioxia）＋HBM順位（SK hynix首位/Samsung/Micron）/ 38.パワー半導体の別チェーン（Infineon/STMicro/onsemi/ローム/三菱、SiC：Wolfspeed/Coherent/ローム、製造フロー詳細に踏み込まない）/ 39.地政学・供給リスク / 40.トレンド / 41.まとめ
+- [ ] **Step 2:** ビルド（警告なし）／ `grep -c '^### ' slides/04-industry.md` → `10`
+- [ ] **Step 3（ガード）:** `grep -n "IP共同開発\|製造委託ではない" slides/04-industry.md` → スライド36にヒット
+- [ ] **Step 4:** コミット `feat: add part 4 industry slides`
+
+---
+
+### Task 9: 用語集・出典（要約）＋ slides 全体ビルド・はみ出し・出典監査
+
+**Files:** Modify `slides/04-industry.md`（42〜43）
+**Interfaces:** Produces 用語集・出典の要約スライド（詳細は docs へ）。
+
+- [ ] **Step 1:** 42.用語集（要点、deflist：EUV/GAA/BSPDN/HBM/OSAT/FC-BGA/ABF/UCIe/RISC-V 等）/ 43.参考文献・データ出典（要点＋「完全な出典URL・詳細は **docs「出典一覧」ページ** 参照」の導線、「シェアは変動／取得年明記」の注意書き）。※完全版は Task 12 の docs `sources`/`glossary` に置く
+- [ ] **Step 2:** 全体ビルド `uv run make -C slides revealjs`（警告なし）。総枚数 `grep -c '^### ' slides/0[0-4]-*.md | awk -F: '{s+=$2} END{print s}'` → `43`（スライド20分割時は 44〜45、バッファ内で可）
+- [ ] **Step 3（出典監査）:** `for f in slides/0[0-4]-*.md; do echo "$f: ###=$(grep -c '^### ' $f) source=$(grep -c '{.source}' $f)"; done` → 各ファイルで source ≥ ###（用語集等の数枚を除き原則一致）。不足は補う
+- [ ] **Step 4（はみ出しレビュー）:** ブラウザで `slides/_build/revealjs/index.html` を通し、枠はみ出しを確認。**スライド20がはみ出す場合は2枚に分割**（「微細化（FinFET→GAA→BSPDN）」「配線革新（High-NA/モリブデンALD）」、総枚数44〜45はバッファ内）。分割時は Step 2 期待値を更新
+- [ ] **Step 5:** コミット `feat: add glossary/source summary slides; full deck builds`
+
+---
+
+### Task 10: `docs/` 雛形（Furo HTML、superpanel を除外）
+
 **Files:**
-- Modify: `docs/04-industry.md`（32〜41）
+- Create: `docs/conf.py`, `docs/index.md`, `docs/Makefile`
 
 **Interfaces:**
-- Consumes: 各部で登場した企業。Produces: 全体企業マップ・日本の強み総まとめ。
+- Produces: ビルド `uv run make -C docs html` → `docs/_build/html/index.html`、
+  ページ `overview/design/frontend/backend/industry/sources/glossary`（Task 11-12 で作成）
 
-- [ ] **Step 1: スライド32〜41 を実装（spec §3 第4部 / 付録A 業界）**
+> 注：`docs/` は既に `superpowers/**` を含むため、`sphinx-init` スキルの「新規docs」前提と衝突しうる。
+> 手動スキャフォールドし、`exclude_patterns` で `superpowers/**` を確実に除外する。
 
-32. バリューチェーン全体×企業マップ（Mermaid＋工程色で総まとめ）
-33. 製造装置業界シェア（**ASML>AMAT>Lam>TEL>KLA**、トップ5でトップ10の約85%。xychart-beta 併用可）
-34. 素材業界と日本の位置づけ（材料世界の約48%）
-35. **日本の強み総まとめ**（確度高：レーザーテック/扶桑化学/信越化学/JX金属/三井化学/三井ハイテック・住友ベークライト、`.jp`。弱点：CMPパッド=DuPont約80%。※荏原・KOKUSAIは概況注記で「確度高断定」枠外）
-36. ファウンドリ勢力図（TSMC/Samsung/Intel、2〜3nm、Rapidus。**Rapidus×Tenstorrent は2nm IP共同開発提携〔2023-11〕で製造委託ではない**と明記）
-37. メモリ（DRAM：Samsung/SK hynix/Micron、NAND：層数競争/Kioxia）＋HBM順位（SK hynix首位/Samsung/Micron）
-38. パワー半導体の別サプライチェーン（Infineon/STMicro/onsemi/ローム/三菱、SiC：Wolfspeed/Coherent/ローム。製造フロー詳細には踏み込まない）
-39. 地政学・供給リスク（台湾集中/米中/各国補助金/CHIPS法）
-40. トレンド（AI半導体・HBM・先端パッケージ・積層化）
-41. まとめ
+- [ ] **Step 1: `docs/conf.py` を作成**
 
-> 注：スライド35は §5 確度高リストと顔ぶれを一致させる。スライド36は「IP提携≠製造委託」を必ず区別。
+```python
+# docs/conf.py
+project = "半導体の製造工程と関連企業 — 補助ドキュメント"
+author = "eleshis"
+release = "2026-07-18"
+language = "ja"
 
-- [ ] **Step 2: ビルドと構造チェック**
+extensions = ["myst_parser", "sphinx_oceanid"]
+myst_enable_extensions = ["colon_fence", "deflist", "attrs_block", "attrs_inline"]
 
-Run: `uv run make -C docs revealjs`
-Expected: 警告・エラーなし。
-Run: `grep -c '^### ' docs/04-industry.md`
-Expected: この時点で `10`（32〜41）
+# spec/plan（メタ資料）はドキュメントビルド対象外
+exclude_patterns = ["_build", "superpowers/**", "Thumbs.db", ".DS_Store"]
 
-- [ ] **Step 3: Rapidusの限定表現を検証**
+html_theme = "furo"
+html_title = "半導体 補助ドキュメント"
+```
 
-Run: `grep -n "IP" docs/04-industry.md | grep -i tenstorrent || grep -n "製造委託ではない\|IP共同開発" docs/04-industry.md`
-Expected: スライド36に「IP共同開発／製造委託ではない」旨がある。
+- [ ] **Step 2: `docs/index.md`（toctree ルート）を作成**
 
-- [ ] **Step 4: コミット**
+````markdown
+# 半導体の製造工程と関連企業 — 補助ドキュメント
+
+スライド（`slides/`）の深掘り・データ出典・用語集。
+
+```{toctree}
+:maxdepth: 2
+
+overview
+design
+frontend
+backend
+industry
+sources
+glossary
+```
+````
+
+- [ ] **Step 3: `docs/Makefile` を作成**
+
+```makefile
+# docs/Makefile
+SPHINXBUILD ?= sphinx-build
+SOURCEDIR   = .
+BUILDDIR    = _build
+
+html:
+	@$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS)
+
+livehtml:
+	@sphinx-autobuild -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS)
+
+clean:
+	rm -rf "$(BUILDDIR)"
+```
+
+- [ ] **Step 4: 各ページの最小ファイルを作成（足場：H1のみ）**
+
+`docs/overview.md` `docs/design.md` `docs/frontend.md` `docs/backend.md` `docs/industry.md`
+`docs/sources.md` `docs/glossary.md` を作り、各先頭に H1（例 `# 前工程 詳細`）だけ置く。
+
+- [ ] **Step 5: ビルドしてスモーク確認（superpowers が混ざらないこと）**
+
+Run: `uv run make -C docs html`
+Expected: エラーなく完了、`docs/_build/html/index.html` 生成。
+Run: `grep -R "superpowers" docs/_build/html/index.html || echo "OK-excluded"`
+Expected: `OK-excluded`（spec/plan がビルドに混入していない）。
+
+- [ ] **Step 6: コミット**
 
 ```bash
-git add docs/04-industry.md
-git commit -m "feat: add part 4 industry slides (equipment/materials share, Japan strengths, foundry/memory/power, geopolitics)
+git add docs/conf.py docs/index.md docs/Makefile docs/overview.md docs/design.md docs/frontend.md docs/backend.md docs/industry.md docs/sources.md docs/glossary.md
+git commit -m "chore: scaffold docs/ companion site (furo, superpowers excluded)
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ```
 
 ---
 
-### Task 9: 用語集・出典（スライド42〜43）＋ 全体ビルド・はみ出し・出典監査
+### Task 11: `docs/` 詳細ページ（overview + 各部4ページ）
 
-**Files:**
-- Modify: `docs/04-industry.md`（42〜43 追記）
+**Files:** Modify `docs/overview.md` `docs/design.md` `docs/frontend.md` `docs/backend.md` `docs/industry.md`
+**Interfaces:** Consumes spec §3/付録A。Produces スライドがリンクする詳細ページ。
 
-**Interfaces:**
-- Consumes: 全スライドの出典。Produces: データ出典の集約スライド。
+各ページは対応するスライド群を**散文と表で補足**し、確度区分の根拠を明記する。数値は spec §5 の確度区分を厳守（概況は「約」、再確認対象は非断定）。Mermaid も使用可。
 
-- [ ] **Step 1: スライド42〜43 を実装**
+- [ ] **Step 1: `docs/overview.md`** — バリューチェーン全体像、分業構造、本ドキュメントの読み方、「日本の強み」通底テーマの要約
+- [ ] **Step 2: `docs/design.md`** — 設計（第1部）の詳細：EDA/IP/ISA（RISC-V/UCIeの位置づけ）、ファブレスとファウンドリの関係
+- [ ] **Step 3: `docs/frontend.md`** — 前工程（第2部）の詳細：各工程の目的、装置・材料の主要企業表（付録A 前工程装置/材料を丁寧に）、マスク製造エコシステムと日本の強み、微細化・配線革新（GAA/BSPDN/モリブデンALD）。**熱処理は3社寡占まで、序列断定しない**旨を明記
+- [ ] **Step 4: `docs/backend.md`** — 後工程（第3部）の詳細：封止/基板/ABF、先端パッケージ各社ブランド、HBM/積層、後工程材料表（Heraeus首位も明記、%は非断定）
+- [ ] **Step 5: `docs/industry.md`** — 業界俯瞰（第4部）の詳細：装置/素材/ファウンドリ/メモリ/HBM/OSAT/パワー半導体、Rapidus（IP提携≠製造委託を明記）、地政学
+- [ ] **Step 6:** ビルド `uv run make -C docs html`（警告なし）／ 各ページに H2 以上の実内容があること：`for f in overview design frontend backend industry; do echo "$f: $(grep -c '^## ' docs/$f.md)"; done` → 各 ≥ 1
+- [ ] **Step 7:** コミット `feat: add docs detail pages (overview + 4 parts)`
 
-42. 用語集（EUV/GAA/BSPDN/HBM/OSAT/FC-BGA/ABF/UCIe/RISC-V 等、deflist）
-43. 参考文献・データ出典（spec §5 の確度区分と、付録A・調査レポートの主要出典URLを集約。
-    「シェアは変動する／取得年明記」の注意書き）
+---
 
-- [ ] **Step 2: 全体ビルドと総枚数チェック**
+### Task 12: `docs/` 出典一覧・用語集 ＋ スライド相互リンク ＋ 両プロジェクト最終ビルド
 
-Run: `uv run make -C docs revealjs`
-Expected: 警告・エラーなし。
-Run: `grep -c '^### ' docs/0[0-4]-*.md | awk -F: '{s+=$2} END{print s}'`
-Expected: `43`（第2部が2枚に割れた場合は 44〜45。spec のバッファ内なら可）。
+**Files:** Modify `docs/sources.md` `docs/glossary.md`、`slides/*.md`（相互リンク調整）
 
-- [ ] **Step 3: 出典行の網羅監査（各スライドに `.source` があるか）**
+**Interfaces:** Consumes 全スライド・全詳細ページの出典。Produces データ出典/確度の集約、用語集。
 
-Run: `for f in docs/0[0-4]-*.md; do echo "$f: ### =$(grep -c '^### ' $f) source=$(grep -c '{.source}' $f)"; done`
-Expected: 各ファイルで `source` 数 ≥ `###` 数（用語集スライド等、出典不要な数枚を除き原則一致）。不足があれば補う。
+- [ ] **Step 1: `docs/sources.md`** — spec §5 の確度区分（確度高／概況／再確認対象）と、付録A・調査レポートの主要出典URLを**カテゴリ別に集約**（装置トップ5、レーザーテック、扶桑化学、JX金属、ABF、Nikon/Canon、HBM、OSAT 等）。各数値に取得年。再確認対象（AMAT注入%・KLA指標・京セラEMC買収・Heraeus%）は「未確定」と明記
+- [ ] **Step 2: `docs/glossary.md`** — 用語集の完全版（deflist）。スライド42の要約より網羅的に
+- [ ] **Step 3: スライドの `.source` 行から docs への導線を確認・統一**
 
-- [ ] **Step 4: ブラウザ目視で「はみ出し」レビュー（特にスライド20）**
+テンプレDの通り各スライド末尾の `.source` 行に「詳細は docs『<部>』ページ」を含める。docs公開を
+`slides/` と `docs/` を並置（例 `slides/` と `docs/` を同一ルート下で配信）する前提で、リンクは
+相対URL（例 `../docs/frontend.html`）を用いる。ホスティング形態が未定なら、まずテキスト導線
+（「docs『前工程』ページ参照」）で実装し、ハイパーリンク化は公開時に確定する。
 
-`run` スキルまたは手動で `docs/_build/revealjs/index.html` を開き、全スライドを送って
-テキスト/表がスライド枠からはみ出していないか確認。**スライド20（微細化と配線革新）がはみ出す場合は
-2枚に分割**（見出しを「微細化（FinFET→GAA→BSPDN）」と「配線革新（High-NA/モリブデンALD）」に。
-総枚数44〜45はバッファ内）。分割したら Step 2 の期待値を更新。
+Run: `grep -c "docs" slides/02-frontend.md`
+Expected: ≥ 1（前工程スライドが docs 前工程ページへ言及）。
+
+- [ ] **Step 4: 両プロジェクトの最終ビルド**
+
+Run: `uv run make -C slides revealjs && uv run make -C docs html`
+Expected: 両方とも警告・エラーなし。
+Run: `test -f slides/_build/revealjs/index.html && test -f docs/_build/html/index.html && echo BOTH-OK`
+Expected: `BOTH-OK`
 
 - [ ] **Step 5: コミット**
 
 ```bash
-git add docs/04-industry.md
-git commit -m "feat: add glossary and data-source slides; full-deck build passes
+git add docs/sources.md docs/glossary.md slides/
+git commit -m "feat: add docs sources/glossary pages and slide cross-links; both projects build
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ```
@@ -603,19 +529,21 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
 ## Self-Review（計画者によるチェック結果）
 
-**1. Spec coverage:** spec §3 の全43スライドを Task 3〜9 に割当済み（0部→T3、1部→T4、2部→T5+T6、
-3部→T7、4部→T8+T9）。§4 表現ルール（3列/Mermaid/出典行/色/バッジ）は共通ルール節＋Task 2 のCSSで担保。
-§5 確度区分・再確認対象は各タスクの注記とガード grep で担保。§6 技術構成は Task 1/2。§7 スコープ外
-（TDK不在・熱処理序列断定禁止・パワー詳細なし）は該当タスクの注記で担保。
+**1. Spec coverage:** spec §3 の全43スライド→Task 3〜9。§6.1 slides（solarized・SCSS・Mermaid・部分割）→Task 1〜2。
+§6.2 docs（Furo・5詳細ページ・sources・glossary・superpowers除外・相互リンク）→Task 10〜12。§4 表現ルール
+（3列/Mermaid/出典行/色/バッジ）→共通ルール節＋Task 2。§5 確度区分・再確認対象→各タスク注記＋ガードgrep。
+§7 スコープ外（TDK不在・熱処理序列断定禁止・パワー詳細なし）→該当タスク注記。
 
-**2. Placeholder scan:** Task 1 Step 5 の「部タイトルのみ」は意図的な足場で後続タスクが差し替える旨を明記済み。
-コンテンツは spec/付録A を参照元とし、テンプレA〜Dで具体化。曖昧な「適切に実装」表現は不使用。
+**2. Placeholder scan:** 足場ファイル（Task 1 Step 5 / Task 10 Step 4）は後続タスクが差し替える旨を明記。
+コンテンツは spec/付録A を参照元にテンプレA〜Dで具体化。曖昧表現は不使用。相互リンクのURL形態のみ
+「ホスティング未定時はテキスト導線→公開時にハイパーリンク化」と判断基準を明示（曖昧放置ではない）。
 
-**3. Type consistency:** CSSクラス名は `.design/.frontend/.backend/.material/.jp/.source` で全タスク統一。
-ビルドコマンド `uv run make -C docs revealjs`、構造チェック `grep -c '^### '`、出典 `{.source}` を全タスクで統一。
+**3. Type/命名 consistency:** CSSクラス `.design/.frontend/.backend/.material/.jp/.source` を全タスク統一。
+ビルドコマンドは slides=`uv run make -C slides revealjs`、docs=`uv run make -C docs html` で統一。
+docsページ名 `overview/design/frontend/backend/industry/sources/glossary` を Task 10-12 で一貫使用。
+確度区分・再確認対象・断定禁止事項は spec §5/§7 と一致。
 
 **既知のリスク/確認事項（実行時に解決）:**
-- conf.py の sass拡張・ハイライトCSSの設定キー名は `revealjs-config` スキルで最終確認（Task 2 Step 1）
-- `sphinx-autobuild`（livehtml）を使う場合は依存追加が必要（任意）
-- 数値の再確認対象（AMAT注入%・KLA指標・京セラEMC買収・Heraeus%）は断定せず、実装中に一次情報が
-  取れたスライドのみ数値化してよい（取れなければ定性表現のまま）
+- slides/conf.py の sass拡張・ハイライトCSSの設定キー名は `revealjs-config` スキルで最終確認（Task 2 Step 1）
+- スライド↔docs のハイパーリンクはホスティング形態に依存。未定ならテキスト導線で実装（Task 12 Step 3）
+- 再確認対象の数値は、実装中に一次情報が取れたスライド/ページのみ数値化してよい（取れなければ定性表現のまま）
