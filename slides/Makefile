@@ -8,7 +8,7 @@ revealjs:
 
 livehtml:
 	@sphinx-autobuild -b revealjs "$(SOURCEDIR)" "$(BUILDDIR)/revealjs" \
-		--ignore "*/_static/custom.css" --ignore "*/_static/custom.css.map" $(SPHINXOPTS)
+		--re-ignore "custom\.css" $(SPHINXOPTS)
 
 clean:
 	rm -rf "$(BUILDDIR)"
