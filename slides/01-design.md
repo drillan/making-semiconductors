@@ -51,12 +51,11 @@ flowchart LR
   - Synopsys / Cadence / Siemens EDA
   - 設計自動化ツールの大手3社
 * - IP
-  - Arm
-  - モバイル・組込み向け命令セット・コア設計で主流
-* - オープンISA
-  - RISC-V（Tenstorrent 等）
-  - ライセンス不要のオープン命令セット\
-    Arm代替の潮流
+  - Arm（CPU）/ Synopsys・Cadence（物理IP）/ SiFive（RISC-V）
+  - CPUコアはArm、インターフェース物理IPはEDA大手が主導
+* - ISA（命令セット）
+  - x86 / Arm / RISC-V
+  - 独占(Intel・AMD) / ライセンス(Arm) / オープン(RISC-V)
 :::
 
 [出典: 企業・規格の位置づけは概況\
