@@ -1,13 +1,5 @@
-// 工程種別の色（spec §6.1、solarized アクセント）
-.design   { color: #268bd2; }   // 設計=青
-.frontend { color: #859900; }   // 前工程=緑
-.backend  { color: #cb4b16; }   // 後工程=橙
-.material { color: #6c71c4; }   // 素材=菫
-
-.badge-design   { background:#268bd2; color:#fdf6e3; }
-.badge-frontend { background:#859900; color:#fdf6e3; }
-.badge-backend  { background:#cb4b16; color:#fdf6e3; }
-.badge-material { background:#6c71c4; color:#fdf6e3; }
+// 工程色は Mermaid の classDef に hex 直書きで表現するため、
+// テキスト用の色クラス/バッジクラスは使わない（未使用のため削除済み）。
 
 // 日本企業バッジ（spec §2/§4「日本の強み」テーマ）
 .jp::after {
@@ -26,12 +18,14 @@
 }
 
 // --- density: fit table-heavy slides within 720px frame ---
-.reveal .slides { font-size: 0.74em; }
+.reveal .slides { font-size: 0.86em; }
+// Mermaid(sphinx-oceanid) の SVG は縦長図でスライドをはみ出しやすいので高さを制限
+.reveal .oceanid-diagram svg { max-height: 420px; max-width: 100%; height: auto; }
 .reveal .slides section { padding-top: 0; }
 .reveal h1 { font-size: 1.7em; margin-bottom: 0.3em; }
 .reveal h2 { font-size: 1.5em; margin-bottom: 0.3em; }
 .reveal h3 { font-size: 1.15em; margin-bottom: 0.25em; margin-top: 0; }
-.reveal table { font-size: 0.58em; margin: 0.25em 0; }
+.reveal table { font-size: 0.72em; margin: 0.25em 0; }
 // reveal.css の html:not(.print-pdf) .reveal table (0,2,2) が margin-left/right を 0 に固定するため、
 // 同詳細度 (0,2,2) の後読みセレクタで中央寄せを上書きする
 .reveal .slides section table {
@@ -43,8 +37,8 @@
 .reveal p { margin: 0.25em 0; line-height: 1.2; }
 .reveal ul, .reveal ol { margin: 0.2em 0 0.2em 1em; }
 .reveal li { margin: 0.1em 0; line-height: 1.2; }
-.reveal dl { margin: 0.15em 0; font-size: 0.78em; }
+.reveal dl { margin: 0.15em 0; font-size: 0.85em; }
 .reveal dl dt { margin-top: 0.1em; line-height: 1.15; }
 .reveal dl dd { margin: 0 0 0.05em 1em; line-height: 1.15; }
 .reveal dl dd p { margin: 0; }
-.reveal .source { font-size: 0.4em; margin-top: 0.3em; }
+.reveal .source { font-size: 0.46em; margin-top: 0.3em; }
