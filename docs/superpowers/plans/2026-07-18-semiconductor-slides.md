@@ -360,8 +360,8 @@ flowchart LR
 **Files:** Modify `slides/00-intro.md`
 **Interfaces:** Consumes Task 2 のCSS。Produces バリューチェーン鳥瞰図。
 
-- [ ] **Step 1:** spec §3 第0部に従い実装。1.タイトル / 2.半導体の種類（テンプレB 3列：ロジック/DRAM/NAND/パワー、「本編は先端ロジック/メモリ軸」明示）/ 3.全体像アジェンダ（テンプレA Mermaid 鳥瞰図、工程色）。Task 2 のスモーク `### スモークテスト` は削除。
-- [ ] **Step 2:** `uv run make -C slides revealjs`（警告なし）／ `grep -c '^### ' slides/00-intro.md` → `3`
+- [ ] **Step 1:** spec §3 第0部に従い実装。**スライド1「タイトル」は index.md の `#`（Task 1 で作成済み）**なので 00-intro.md には作らない。00-intro.md（`## 導入` は作成済み）に `###` を2枚追加：2.半導体の種類（テンプレB 3列：ロジック/DRAM/NAND/パワー、「本編は先端ロジック/メモリ軸」明示）/ 3.全体像アジェンダ（テンプレA Mermaid 鳥瞰図、工程色 classDef）。Task 2 のスモーク `### スモークテスト` は削除。
+- [ ] **Step 2:** `uv run make -C slides revealjs`（警告なし）／ `grep -c '^### ' slides/00-intro.md` → `2`（タイトルは index.md 側）／ `ls slides/_build/revealjs/*.html` → `index.html` のみ
 - [ ] **Step 3:** コミット `feat: add part 0 intro slides`
 
 ---
@@ -430,7 +430,7 @@ flowchart LR
 **Interfaces:** Produces 用語集・出典の要約スライド（詳細は docs へ）。
 
 - [ ] **Step 1:** 42.用語集（要点、deflist：EUV/GAA/BSPDN/HBM/OSAT/FC-BGA/ABF/UCIe/RISC-V 等）/ 43.参考文献・データ出典（要点＋「完全な出典URL・詳細は **docs「出典一覧」ページ** 参照」の導線、「シェアは変動／取得年明記」の注意書き）。※完全版は Task 12 の docs `sources`/`glossary` に置く
-- [ ] **Step 2:** 全体ビルド `uv run make -C slides revealjs`（警告なし）。総枚数 `grep -c '^### ' slides/0[0-4]-*.md | awk -F: '{s+=$2} END{print s}'` → `43`（スライド20分割時は 44〜45、バッファ内で可）
+- [ ] **Step 2:** 全体ビルド `uv run make -C slides revealjs`（警告なし）。`###` 総数 `grep -c '^### ' slides/0[0-4]-*.md | awk -F: '{s+=$2} END{print s}'` → `42`（＋ index.md の `#` タイトルスライドで**計43枚**。スライド20分割時は 43＝計44、バッファ内で可）
 - [ ] **Step 3（出典監査）:** `for f in slides/0[0-4]-*.md; do echo "$f: ###=$(grep -c '^### ' $f) source=$(grep -c '{.source}' $f)"; done` → 各ファイルで source ≥ ###（用語集等の数枚を除き原則一致）。不足は補う
 - [ ] **Step 4（はみ出しレビュー）:** ブラウザで `slides/_build/revealjs/index.html` を通し、枠はみ出しを確認。**スライド20がはみ出す場合は2枚に分割**（「微細化（FinFET→GAA→BSPDN）」「配線革新（High-NA/モリブデンALD）」、総枚数44〜45はバッファ内）。分割時は Step 2 期待値を更新
 - [ ] **Step 5:** コミット `feat: add glossary/source summary slides; full deck builds`
