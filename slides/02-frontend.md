@@ -37,6 +37,24 @@ flowchart LR
 [出典: シリコンウェハー市場, 2024年頃\
 詳細は docs「前工程」ページ]{.source}
 
+### シリコンウェーハとインゴット
+
+:::::{list-table}
+:header-rows: 0
+:widths: 42 58
+
+* - - 単結晶シリコンのインゴットを薄くスライスし鏡面研磨した基板
+    - 全ての半導体チップの出発点
+    - [信越化学]{.jp}・[SUMCO]{.jp}が世界2大手
+  - :::{image} _static/images/shinetsu-silicon-ingot-wafer.jpg
+    :alt: シリコンインゴットとウェーハ
+    :width: 95%
+    :align: center
+    :::
+:::::
+
+[出典: 画像は信越化学工業 公式サイト]{.source}
+
 ### ②成膜 CVD/PVD/ALD ＋ 装置
 
 ウェハー上に絶縁膜・導電膜を積み重ねる工程\
@@ -108,6 +126,26 @@ CVD・PVD・ALDなど手法を使い分ける
 [出典: スパッタリングターゲットは約60%（2024年頃）\
 詳細は docs「前工程」ページ]{.source}
 
+### スパッタリングターゲット
+
+:::::{list-table}
+:header-rows: 0
+:widths: 55 45
+
+* - - PVD(スパッタ)で金属薄膜を成膜する原料
+    - 銅配線・バリア(Ta/TiN)・電極などに使用
+    - 高純度・低パーティクルが要求される
+    - [JX金属]{.jp}が世界シェア約6割
+  - :::{image} _static/images/jx-sputter-target.jpg
+    :alt: スパッタリングターゲット
+    :width: 300px
+    :align: center
+    :::
+:::::
+
+[出典: 画像はJX金属 公式サイト／シェアは概況2024年頃\
+詳細は docs「前工程」ページ]{.source}
+
 ### ③リソグラフィ / 露光（露光装置）
 
 パターンを転写する工程\
@@ -139,6 +177,23 @@ flowchart LR
 [出典: 露光装置シェアは概況/2024年頃\
 詳細は docs「前工程」ページ]{.source}
 
+### 露光装置の基本構成
+
+光源からの光を照明系で整え、マスクの回路パターンを投影レンズで縮小してウェハーに転写する\
+ウェハーを少しずつ動かして露光を繰り返す（ステップ&リピート）
+
+:::{mermaid}
+flowchart LR
+  S[光源 ArF/EUV等] --> I[照明光学系] --> M[マスク レチクル] --> L[投影レンズ] --> W[ウェハー レジスト]
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+  class S,I,M,L,W fe
+:::
+
+:::{note}
+EUV(13.5nm)はレンズが使えず反射ミラー光学系を採用\
+EUV露光装置はASMLが唯一の供給元
+:::
+
 ### ③リソグラフィ / 露光（周辺装置・材料）
 
 露光装置と一体で動くコータ・デベロッパ、および感光材料のレジスト
@@ -159,6 +214,33 @@ flowchart LR
 :::
 
 [出典: 装置・材料シェアは概況/2024年頃\
+詳細は docs「前工程」ページ]{.source}
+
+### フォトレジスト（感光材料）
+
+光が当たった部分の溶解性が変わる感光性樹脂\
+EUV用レジストは日本勢が圧倒的で微細化の鍵となる材料
+
+:::::{list-table}
+:header-rows: 0
+:widths: 45 55
+
+* - - ポジ型は露光部が現像で溶ける
+    - EUVレジストは技術難度が高い
+    - [JSR]{.jp}/[東京応化]{.jp}/[信越化学]{.jp}/[富士フイルム]{.jp}/[住友化学]{.jp}
+  - :::{mermaid}
+    flowchart TB
+      A[レジスト塗布 スピンコート] --> B[露光 マスク経由で光照射]
+      B --> C[現像 ポジ型は露光部が溶解]
+      C --> D[パターン形成 エッチングへ]
+      classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+      classDef material fill:#6c71c4,color:#fdf6e3,stroke:#586e75
+      class A,C material
+      class B,D fe
+    :::
+:::::
+
+[出典: プロセスは一般的なポジ型レジストの自作図/2024年頃\
 詳細は docs「前工程」ページ]{.source}
 
 ### マスク製造エコシステム
@@ -193,6 +275,24 @@ flowchart LR
 
 [出典: マスク関連シェアは概況/2024年頃\
 詳細は docs「前工程」ページ]{.source}
+
+### EUVペリクル
+
+:::::{list-table}
+:header-rows: 0
+:widths: 42 58
+
+* - - マスクを異物から守る極薄の保護膜
+    - EUV光を透過する必要があり技術難度が高い
+    - [三井化学]{.jp}がASMLのライセンスで量産
+  - :::{image} _static/images/mitsui-euv-pellicle.jpg
+    :alt: EUVペリクル
+    :width: 95%
+    :align: center
+    :::
+:::::
+
+[出典: 画像は三井化学 公式サイト]{.source}
 
 ### ④エッチング
 
@@ -294,6 +394,33 @@ flowchart LR
 :::
 
 [出典: CMP装置・材料は概況/2024年頃、扶桑化学の砥粒シェアは複数ソース一致\
+詳細は docs「前工程」ページ]{.source}
+
+### CMPの仕組み
+
+化学反応と機械研磨を組み合わせてウェハー表面を平坦化する\
+砥粒（コロイダルシリカ）と薬液を含むスラリーが鍵を握る
+
+:::::{list-table}
+:header-rows: 0
+:widths: 45 55
+
+* - - 研磨ヘッドがウェハーをパッドへ押し付ける
+    - スラリーの化学＋砥粒の機械作用で削る
+    - 砥粒は[扶桑化学]{.jp}が世界90%超
+  - :::{mermaid}
+    flowchart TB
+      Head[研磨ヘッド ウェハー保持] --> Contact[パッドに押し付け 相対回転]
+      Slurry[スラリー 砥粒+薬液] --> Contact
+      Contact --> Flat[化学+機械で平坦化]
+      classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+      classDef material fill:#6c71c4,color:#fdf6e3,stroke:#586e75
+      class Head,Contact,Flat fe
+      class Slurry material
+    :::
+:::::
+
+[出典: 機構は一般的なCMPの自作図、砥粒シェアは複数ソース一致/2024年頃\
 詳細は docs「前工程」ページ]{.source}
 
 ### ⑦洗浄
