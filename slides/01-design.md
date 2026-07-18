@@ -82,7 +82,7 @@ flowchart LR
   - サーバー・PC向けで存在感
 * - Apple
   - 自社製品向けSoC
-  - 垂直統合の設計戦略（製造はTSMCに委託）
+  - 設計は自社／製造はTSMC委託のファブレス
 * - Broadcom
   - 通信・ネットワーク半導体
   - カスタムASIC・IPも展開
