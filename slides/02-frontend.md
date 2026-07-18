@@ -227,6 +227,88 @@ EUV(13.5nm)はレンズが使えず反射ミラー光学系を採用\
 EUV露光装置はASMLが唯一の供給元
 :::
 
+### EUVとDUVの違い（光路）
+
+EUVは物質に吸収されレンズを使えないため反射ミラー光学系を採用する\
+DUVは従来どおりレンズを透過させる
+
+:::::{list-table}
+:header-rows: 1
+:widths: 50 50
+
+* - DUV（透過・レンズ）
+  - EUV（反射・ミラー）
+* - :::{mermaid}
+    flowchart TB
+      L[光源 ArF 193nm] --> M[透過マスク] --> Le[レンズ 透過] --> W[ウェハー]
+      classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+      class L,M,Le,W fe
+    :::
+  - :::{mermaid}
+    flowchart TB
+      L2[光源 Sn 13.5nm] --> M2[反射マスク] --> Mi[ミラー 反射] --> W2[ウェハー]
+      classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+      classDef material fill:#6c71c4,color:#fdf6e3,stroke:#586e75
+      class L2,W2 fe
+      class M2,Mi material
+    :::
+:::::
+
+### EUVとDUVの違い（仕様）
+
+:::{list-table}
+:header-rows: 1
+:widths: auto
+
+* - 項目
+  - DUV
+  - EUV
+* - 波長
+  - 193nm(ArF) / 248nm(KrF)
+  - 13.5nm
+* - 光学系
+  - レンズ（透過）
+  - ミラー（反射）
+* - 環境
+  - 大気・ArFは液浸
+  - 真空
+* - 供給
+  - ASML / [Nikon]{.jp} / [Canon]{.jp}
+  - ASMLのみ
+:::
+
+[出典: 露光方式の一般的な比較/2024年頃\
+詳細は docs「前工程」ページ]{.source}
+
+### EUV光学系：多段反射の仕組み
+
+EUVは吸収されレンズを使えないため、全て真空中の反射ミラーで結像する\
+集光から投影まで多数のミラーを経るのが特徴
+
+:::::{list-table}
+:header-rows: 0
+:widths: 52 48
+
+* - - ミラーはMo/Si多層膜で反射率は約70%止まり
+    - 集光・照明・反射マスク・投影(6枚)で計10回前後反射
+    - 反射のたびに減衰し光はウェハーで数%に（0.7を10回で約3%）
+    - 損失を補うため250W級の高出力光源が必要
+  - :::{mermaid}
+    flowchart TB
+      S[光源 100%] --> A[集光・照明ミラー]
+      A --> M[反射マスク]
+      M --> P[投影ミラー 6枚]
+      P --> W[ウェハー 数%]
+      classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
+      classDef material fill:#6c71c4,color:#fdf6e3,stroke:#586e75
+      class S,W fe
+      class A,M,P material
+    :::
+:::::
+
+[出典: 多層膜ミラーの反射率・段数は一般的な概説/2024年頃\
+詳細は docs「前工程」ページ]{.source}
+
 ### ③リソグラフィ / 露光（周辺装置・材料）
 
 露光装置と一体で動くコータ・デベロッパ、および感光材料のレジスト
