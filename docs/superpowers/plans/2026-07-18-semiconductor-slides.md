@@ -16,6 +16,10 @@
 - **2プロジェクト**：スライド本体＝`slides/`、補助ドキュメント＝`docs/`（spec §6）
 - スライドテーマ＝**solarized**（`revealjs_style_theme = "solarized"`）。docs テーマ＝**Furo**
 - スライド構造は見出し階層：`#`=タイトル / `##`=部区切り / `###`=個別スライド（spec §6.1）
+- **単一デッキ**：sphinx-revealjs はソース文書1つにつきプレゼンHTMLを1つ生成する。よって
+  `slides/index.md` に各部を `{include}` で統合し、部ファイルは `exclude_patterns` で単独ビルドを
+  抑止して**1つの43枚デッキ**にする。`#` は index.md のタイトルスライド専用（部ファイルは `##` 始まり）
+- MyST ディレクティブは**コロンフェンス `:::`**（revealjs-authoring 規約）。span属性は `[語]{.class}`
 - **list-table は最大3列厳守**。4項目以上は属性統合か2枚分割（spec §4）
 - 図は Mermaid（sphinx-oceanid のサポート型：flowchart / sequence / class / state / er / xychart-beta 等）
 - **出典はMyST脚注を使わない**。各スライド末尾に小文字の出典行＋CSSクラス `.source`、数値の隣に取得年。
@@ -51,10 +55,14 @@
 ```bash
 cd /home/driller/repo/making-semiconductors
 uv init --no-workspace --name making-semiconductors --python 3.12
-uv add sphinx sphinx-revealjs sphinx-oceanid libsass furo
+rm -f main.py hello.py            # uv init が生成するサンプルファイルを削除
+uv add sphinx myst-parser sphinx-revealjs sphinx-oceanid libsass furo
+uv add --dev sphinx-autobuild     # 両 Makefile の livehtml ターゲット用
 ```
 
-Expected: `pyproject.toml` と `uv.lock` が生成される（furo は Task 10 の docs で使用）。
+Expected: `pyproject.toml` と `uv.lock` が生成される。`myst-parser` は両 conf.py が
+`extensions` に指定するため必須（欠けると Step 7 のビルドが即失敗）。furo は Task 10 の docs、
+sphinx-autobuild は livehtml で使用。
 
 - [ ] **Step 2: `slides/conf.py` を作成**
 
@@ -73,7 +81,13 @@ extensions = [
 ]
 
 myst_enable_extensions = ["colon_fence", "deflist", "attrs_block", "attrs_inline"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+# 部ファイルは index.md に {include} で統合する単一デッキ構成（重要）。
+# 部ファイルを単独ドキュメントとしてビルドさせない（＝別々のプレゼンHTMLを作らせない）ため除外する。
+exclude_patterns = [
+    "_build", "Thumbs.db", ".DS_Store",
+    "00-intro.md", "01-design.md", "02-frontend.md", "03-backend.md", "04-industry.md",
+]
 
 revealjs_static_path = ["_static"]
 revealjs_style_theme = "solarized"
@@ -83,27 +97,40 @@ revealjs_script_conf = {
     "slideNumber": "c/t",
     "hash": True,
 }
-revealjs_css_files = ["css/custom.css"]  # Task 2 でハイライトCSSも追加
+# sphinx_revealjs.ext.sass が _static 配下の .scss を同名 .css にコンパイルする（custom.scss→custom.css）。
+# ハイライトテーマCSSは必須（可視化のため）。_static/css/highlight.css に配置して読み込む。
+revealjs_css_files = ["custom.css", "css/highlight.css"]
 ```
 
-> 注：ハイライトテーマCSSは必須（revealjs-config スキル指摘）。Task 2 で `_static/css/` に配置し
-> この配列へ追記。sass拡張の入力/出力設定キー名は revealjs-config スキルで確認して合わせる。
+> 単一デッキの要：sphinx-revealjs は**ソース文書1つにつきプレゼンHTMLを1つ**生成する。よって
+> toctree で5文書を並べると5つの別デッキになる。`index.md` に各部を `{include}` で取り込み、
+> 部ファイルは上記 `exclude_patterns` で単独ビルドを抑止して、**1つの43枚デッキ**にする。
 
-- [ ] **Step 3: `slides/index.md`（toctree ルート）を作成**
+- [ ] **Step 3: `slides/index.md`（単一デッキのルート、include統合）を作成**
+
+`#` がタイトルスライドになり、各部ファイルを `{include}`（コロンフェンス＋`:parser: myst`）で
+取り込んで**1つのデッキ**にする。toctree は使わない。
 
 ````markdown
 # 半導体の製造工程と関連企業
 
-```{toctree}
-:maxdepth: 1
-:hidden:
+設計から製造（前工程・後工程）、装置・素材、業界俯瞰までを体系的に解説する。
 
-00-intro
-01-design
-02-frontend
-03-backend
-04-industry
-```
+:::{include} 00-intro.md
+:parser: myst
+:::
+:::{include} 01-design.md
+:parser: myst
+:::
+:::{include} 02-frontend.md
+:parser: myst
+:::
+:::{include} 03-backend.md
+:parser: myst
+:::
+:::{include} 04-industry.md
+:parser: myst
+:::
 ````
 
 - [ ] **Step 4: `slides/Makefile` を作成**
@@ -124,10 +151,11 @@ clean:
 	rm -rf "$(BUILDDIR)"
 ```
 
-- [ ] **Step 5: 各部の最小ファイルを作成（足場：部タイトルのみ、後続タスクで差し替え）**
+- [ ] **Step 5: 各部の最小ファイルを作成（足場：`##` 部区切りのみ、後続タスクで `###` 追記）**
 
-`slides/00-intro.md`…`slides/04-industry.md` を作り、各先頭に
-`# 導入` / `# 設計` / `# 前工程` / `# 後工程` / `# 業界俯瞰` と、直後に `## <同名>` を置く。
+`slides/00-intro.md`…`slides/04-industry.md` を作り、各先頭に **`##` の部区切り見出しのみ**を置く。
+**`#` は置かない**（h1 は index.md のタイトルスライド専用。1デッキに複数 h1 があると構造が壊れる）：
+`## 導入` / `## 設計` / `## 前工程` / `## 後工程` / `## 業界俯瞰`。
 
 - [ ] **Step 6: `.gitignore` を作成**
 
@@ -158,20 +186,35 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ### Task 2: `slides/` カスタムSCSS（solarized調の工程色・日本企業バッジ・出典行）と Mermaid スモーク
 
 **Files:**
-- Create: `slides/_static/scss/custom.scss`
-- Modify: `slides/conf.py`（sass入出力・ハイライトCSSを確定）
-- Create: `slides/_static/css/`（ハイライトCSS配置先）
+- Create: `slides/_static/custom.scss`（sass拡張が `custom.css` にコンパイル）
+- Create: `slides/_static/css/highlight.css`（ハイライトCSS）
+
+（conf.py の sass/CSS 設定は Task 1 で確定済み。本タスクでの conf.py 変更は不要）
 
 **Interfaces:**
 - Produces: CSSクラス `.design/.frontend/.backend/.material`（工程色）、`.jp`（日本企業バッジ）、
   `.source`（出典行）。後続の全スライドタスクが使用。
 
-- [ ] **Step 1: `revealjs-config` スキルを参照し sass拡張とハイライトCSSを conf.py に設定**
+- [ ] **Step 1: ハイライトCSSを配置（sass/CSS 設定は Task 1 の conf.py で確定済み）**
 
-目標状態：`slides/_static/scss/custom.scss` → `_static/css/custom.css` にコンパイルされ、
-`revealjs_css_files` にハイライトテーマCSS（例 `css/highlight-github.css`）と `css/custom.css` が入る。
+`sphinx_revealjs.ext.sass` は `_static` 配下の `.scss` を同名 `.css` に自動コンパイルする
+（Step 2 の `_static/custom.scss` → `_static/custom.css`）。本デッキはコード片をほぼ含まないが、
+revealjs-config スキルの指針に従いハイライトCSSを用意する。外部依存を避け、最小テーマを直接作成：
 
-- [ ] **Step 2: `slides/_static/scss/custom.scss` を作成（solarized アクセント）**
+`slides/_static/css/highlight.css`:
+
+```css
+/* minimal solarized-ish highlight theme (deck にコードは少ないため最小限) */
+.hljs { color: #657b83; background: #fdf6e3; }
+.hljs-keyword, .hljs-selector-tag { color: #859900; }
+.hljs-string, .hljs-attr { color: #2aa198; }
+.hljs-number, .hljs-literal { color: #d33682; }
+.hljs-comment { color: #93a1a1; font-style: italic; }
+```
+
+（この2ファイルは Task 1 の `revealjs_css_files = ["custom.css", "css/highlight.css"]` が読み込む）
+
+- [ ] **Step 2: `slides/_static/custom.scss` を作成（solarized アクセント）**
 
 ```scss
 // 工程種別の色（spec §6.1、solarized アクセント）
@@ -202,17 +245,16 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 }
 ```
 
-- [ ] **Step 3: `slides/00-intro.md` に Mermaid スモークと `.source` を仮置き**
+- [ ] **Step 3: `slides/00-intro.md` に Mermaid スモークと `.source` を仮置き（`##` 始まり・コロンフェンス）**
 
 ````markdown
-# 導入
 ## 導入
 ### スモークテスト
 
-```{mermaid}
+:::{mermaid}
 flowchart LR
   A[設計] --> B[前工程] --> C[後工程]
-```
+:::
 
 [出典: スモーク, 2026]{.source}
 ````
@@ -221,9 +263,11 @@ flowchart LR
 
 Run: `uv run make -C slides revealjs`
 Expected: 警告・エラーなし。
-Run: `grep -R "class=\"source\"" slides/_build/revealjs/ | head -1`
+Run: `ls slides/_build/revealjs/*.html`
+Expected: **`index.html` のみ**（部ごとの別HTMLが無い＝単一デッキに統合されている）。
+Run: `grep -o 'class="source"' slides/_build/revealjs/index.html | head -1`
 Expected: `.source` クラスがHTMLに出力（1行以上）。
-Run: `grep -R "mermaid" slides/_build/revealjs/00-intro.html | head -1`
+Run: `grep -o 'mermaid' slides/_build/revealjs/index.html | head -1`
 Expected: Mermaid 描画要素が出力。
 
 - [ ] **Step 5: ブラウザ目視（推奨）**
@@ -246,19 +290,27 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
 各スライドタスクは spec §3 のスライド定義と 付録A のデータを、以下に落とす。**新しい事実を発明しない**。
 
+**ディレクティブはすべてコロンフェンス `:::` で書く**（revealjs-authoring 規約）。バッククォート
+フェンス ` ```{...} ` は使わない。
+
 **A. 工程スライドの定型3ブロック**（①何をする→②図→③企業＋シェア）
+
+Mermaid の工程色は**外部CSSクラスがSVG内部に効かない**ため、`classDef` に solarized の hex を
+直書きする（設計#268bd2 / 前工程#859900 / 後工程#cb4b16 / 素材#6c71c4）。
 
 ````markdown
 ### ③リソグラフィ / 露光
 
 パターンを転写する工程。ArF/EUV の光でレジストに回路を焼き付ける。
 
-```{mermaid}
+:::{mermaid}
 flowchart LR
   R[レジスト塗布] --> E[露光] --> D[現像]
-```
+  classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75;
+  class R,E,D fe;
+:::
 
-```{list-table}
+:::{list-table}
 :header-rows: 1
 
 * - 企業
@@ -270,14 +322,15 @@ flowchart LR
 * - Nikon・Canon
   - DUV露光装置
   - 成熟ノードで競合（各約5%、EUV非供給）
-```
+:::
 
 [出典: 装置シェアは概況/2024。詳細は docs「前工程」ページ]{.source}
 ````
 
 **B. 3列に収まらない比較（例：スライド2）** → 属性を「用途・特徴」に統合し3列に：
 
-```{list-table}
+````markdown
+:::{list-table}
 :header-rows: 1
 
 * - 種類
@@ -286,9 +339,11 @@ flowchart LR
 * - ロジック
   - 演算。微細化の主戦場
   - TSMC / NVIDIA / Intel
-```
+:::
+````
 
-**C. 日本企業の強調** → `` {span}`扶桑化学`{.jp} `` のように `.jp` を付す（崩れる場合は行末に `🇯🇵` フォールバック）。
+**C. 日本企業の強調** → attrs_inline の**span記法 `[扶桑化学]{.jp}`** で `.jp` を付す
+（出典行 `[出典: …]{.source}` と同じ形式。崩れる場合は行末に `🇯🇵` フォールバック）。
 
 **D. 出典行＋docs導線** → 各 `###` スライド末尾に `[出典: …, 取得年。詳細は docs「<部>」ページ]{.source}`。
 確度高は断定、概況は「約」。再確認対象（AMAT注入%・KLA指標・京セラ買収・Heraeus%）は数値を書かず定性表現。
@@ -543,7 +598,15 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 docsページ名 `overview/design/frontend/backend/industry/sources/glossary` を Task 10-12 で一貫使用。
 確度区分・再確認対象・断定禁止事項は spec §5/§7 と一致。
 
+**設計判断（レビュー反映済み）:**
+- **単一デッキ**を include 統合で実現（Task 1 Step 3/5・conf.py exclude_patterns）。部ごと独立デッキにはしない
+- 依存に `myst-parser`（必須）・`sphinx-autobuild`（dev）を追加済み（Task 1 Step 1）
+- sass/ハイライトCSSは conf.py に具体値を確定（`custom.scss→custom.css`、`css/highlight.css`）
+- コミットトレーラーは実行モデルに一致させ **Claude Opus 4.8**（本セッションの exact model は claude-opus-4-8）
+
 **既知のリスク/確認事項（実行時に解決）:**
-- slides/conf.py の sass拡張・ハイライトCSSの設定キー名は `revealjs-config` スキルで最終確認（Task 2 Step 1）
+- `{include}` の `:parser: myst` 指定で部ファイルがMySTとして統合されることを Task 1 Step 7 のビルドで確認
+  （h1重複回避のため部ファイルは `##` 始まり厳守）
+- `sphinx_revealjs.ext.sass` の scss→css 出力パスが想定と異なる場合は `revealjs_css_files` の参照を調整
 - スライド↔docs のハイパーリンクはホスティング形態に依存。未定ならテキスト導線で実装（Task 12 Step 3）
 - 再確認対象の数値は、実装中に一次情報が取れたスライド/ページのみ数値化してよい（取れなければ定性表現のまま）

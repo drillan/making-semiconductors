@@ -164,7 +164,11 @@
 スライド本体と補助ドキュメントを**別々のSphinxプロジェクト**に分ける。
 
 ### 6.1 `slides/` — プレゼン本体（sphinx-revealjs）
-- `slides/` は**新規ディレクトリ**なので `revealjs-init` スキルでそのまま初期化できる（MyST Markdown）
+- `slides/` は**手動スキャフォールド**する（`revealjs-init` は出力先が `docs/` 固定で、`docs/` を
+  補助ドキュメントに充てる本構成と衝突するため使わない）。MyST Markdown
+- **単一デッキ構成**：sphinx-revealjs はソース文書1つにつきプレゼンHTMLを1つ生成するため、
+  `slides/index.md` に各部を `{include}` で統合し、部ファイル（`00-intro.md`〜）は `exclude_patterns`
+  で単独ビルドを抑止する。`#`=タイトルスライドは index.md 専用、部ファイルは `##` 始まり
 - **テーマ = solarized**（`revealjs_style_theme = "solarized"`、reveal.js 標準）
 - **SCSSカスタムテーマオプションを有効化**（§4の色分け・日本企業バッジ・出典行クラスに必須）。
   工程色は solarized アクセントに合わせる：設計=青#268bd2 / 前工程=緑#859900 /
