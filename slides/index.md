@@ -14,6 +14,9 @@
 :::{include} 03-backend.md
 :parser: myst
 :::
-:::{include} 04-industry.md
+:::{include} 04-trends.md
+:parser: myst
+:::
+:::{include} 05-industry.md
 :parser: myst
 :::

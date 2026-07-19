@@ -17,7 +17,7 @@ myst_enable_extensions = ["colon_fence", "deflist", "attrs_block", "attrs_inline
 # 部ファイルを単独ドキュメントとしてビルドさせない（＝別々のプレゼンHTMLを作らせない）ため除外する。
 exclude_patterns = [
     "_build", "Thumbs.db", ".DS_Store",
-    "00-intro.md", "01-design.md", "02-frontend.md", "03-backend.md", "04-industry.md",
+    "00-intro.md", "01-design.md", "02-frontend.md", "03-backend.md", "04-trends.md", "05-industry.md",
     # 画像出典の管理用ファイル。デッキには出力しない。
     "reference.md",
 ]

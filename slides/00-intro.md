@@ -91,14 +91,14 @@ flowchart LR
 
 :::{mermaid}
 flowchart LR
-  D[設計] --> F[前工程] --> B[後工程] --> I[業界俯瞰]
+  D[設計] --> F[前工程] --> B[後工程] --> T[最新動向] --> I[業界俯瞰]
   classDef design fill:#268bd2,color:#fdf6e3,stroke:#586e75
   classDef fe fill:#859900,color:#fdf6e3,stroke:#586e75
   classDef be fill:#cb4b16,color:#fdf6e3,stroke:#586e75
   classDef ov fill:#586e75,color:#fdf6e3,stroke:#073642
   class D design
   class F fe
-  class B be
+  class B,T be
   class I ov
 :::
 
